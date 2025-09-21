@@ -7,3 +7,5 @@ func _ready() -> void:
 
 func _on_start_button_pressed() -> void:
 	get_tree().change_scene("res://Scene/Game.tscn")
+
+# adding this as a test for github
