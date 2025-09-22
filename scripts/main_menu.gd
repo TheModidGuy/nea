@@ -5,9 +5,16 @@ extends Control
 func _ready() -> void:
 	pass # Replace with function body.
 
+# start
 func _on_start_button_pressed() -> void:
-	get_tree().change_scene("res://Scene/Game.tscn")
+	print("Start pressed")
+	get_tree().change_scene_to_file("res://Scene/Map/Game.tscn")
 
-# adding this as a test for github
+# quit
+func _on_quit_button_pressed() -> void:
+	print("Quit pressed")
+	get_tree().quit()
 
-# adding this from the laptop as a test please god make this work
+# options
+func _on_options_button_pressed() -> void:
+	pass # Replace with function body.
