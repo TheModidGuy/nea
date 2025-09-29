@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8vdderf8bppa"]
+
+[ext_resource type="Script" uid="uid://hioh1fahnxi" path="res://scripts/map_generator.gd" id="1_urt8w"]
+[ext_resource type="PackedScene" uid="uid://c5h2up1fankgb" path="res://Scene/tile.tscn" id="2_34yyu"]
+
+[node name="MapGenerator" type="Node2D"]
+script = ExtResource("1_urt8w")
+hex_tile_scene = ExtResource("2_34yyu")

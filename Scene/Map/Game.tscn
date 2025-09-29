@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cs4yg2ev4t7rj"]
 
 [ext_resource type="PackedScene" uid="uid://c2cq5jjjb88ml" path="res://Scene/camera.tscn" id="1_bmxq8"]
-[ext_resource type="PackedScene" uid="uid://c5h2up1fankgb" path="res://Scene/tile.tscn" id="2_ksisb"]
+[ext_resource type="PackedScene" uid="uid://b8vdderf8bppa" path="res://Scene/map_generator.tscn" id="3_3nntn"]
 
 [node name="Game" type="Node"]
 
@@ -10,33 +10,6 @@
 [node name="MainCamera" parent="Camera" instance=ExtResource("1_bmxq8")]
 position = Vector2(571, 335)
 
-[node name="Label" type="Label" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -217.0
-offset_top = -57.0
-offset_right = 217.0
-offset_bottom = 57.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 60
-text = "Game scene test"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="Map generator" type="Node" parent="."]
 
-[node name="Tile testing" type="Node" parent="."]
-
-[node name="Tile" parent="Tile testing" instance=ExtResource("2_ksisb")]
-position = Vector2(502, 393)
-
-[node name="HexTile" parent="Tile testing" instance=ExtResource("2_ksisb")]
-position = Vector2(564, 393)
-terrainType = "water"
-
-[node name="HexTile2" parent="Tile testing" instance=ExtResource("2_ksisb")]
-position = Vector2(533, 441)
-terrainType = "snow"
+[node name="MapGenerator" parent="Map generator" instance=ExtResource("3_3nntn")]
