@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cs4yg2ev4t7rj"]
+[gd_scene load_steps=3 format=3 uid="uid://cs4yg2ev4t7rj"]
 
 [ext_resource type="PackedScene" uid="uid://c2cq5jjjb88ml" path="res://Scene/camera.tscn" id="1_bmxq8"]
+[ext_resource type="PackedScene" uid="uid://c5h2up1fankgb" path="res://Scene/tile.tscn" id="2_ksisb"]
 
 [node name="Game" type="Node"]
 
@@ -26,3 +27,16 @@ theme_override_font_sizes/font_size = 60
 text = "Game scene test"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Tile testing" type="Node" parent="."]
+
+[node name="Tile" parent="Tile testing" instance=ExtResource("2_ksisb")]
+position = Vector2(502, 393)
+
+[node name="HexTile" parent="Tile testing" instance=ExtResource("2_ksisb")]
+position = Vector2(564, 393)
+terrainType = "water"
+
+[node name="HexTile2" parent="Tile testing" instance=ExtResource("2_ksisb")]
+position = Vector2(533, 441)
+terrainType = "snow"
