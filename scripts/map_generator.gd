@@ -33,9 +33,9 @@ func generate_map():
 			var n = terrain_noise.get_noise_2d(x, y)
 			n = (n + 1) / 2  # normalize to 0–1
 
-			if n < 0.4:
+			if n < 0.3:
 				tile_instance.terrainType = "water"
-			elif n < 0.4:
+			elif n < 0.6:
 				tile_instance.terrainType = "grass"
 			else:
 				tile_instance.terrainType = "snow"
