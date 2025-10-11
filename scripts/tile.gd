@@ -43,6 +43,6 @@ func apply_terrain(t_type: String) -> void:
 		cost = preset.get("cost", 0)
 
 		_last_applied = t_type
-		print("Applied terrain:", t_type, " cost:", cost)
+		#print("Applied terrain:", t_type, " cost:", cost)
 	else:
 		push_error("Unknown terrain type: %s" % t_type)

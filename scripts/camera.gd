@@ -1,7 +1,7 @@
 extends Camera2D
 
 # camera controller
-@export var moveSpeed: float = 200.0
+@export var moveSpeed: float = 300.0
 @export var moveMultiplier: float = 2.0
 @export var acceleration: float = 5.0
 @export var zoomSpeed: float = 0.25

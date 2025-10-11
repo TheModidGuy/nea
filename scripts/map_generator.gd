@@ -1,10 +1,12 @@
 extends Node2D
 
 @export var hex_tile_scene: PackedScene
-@export var map_width: int = 50
-@export var map_height: int = 50
+@export var map_width: int = 25
+@export var map_height: int = 25
 @export var hex_width: float = 64
 @export var hex_height: float = 48
+
+var tiles = []
 
 # Noise objects
 var terrain_noise := FastNoiseLite.new()
