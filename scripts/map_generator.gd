@@ -4,7 +4,7 @@ extends Node2D
 @export var map_width: int = 25
 @export var map_height: int = 25
 @export var hex_width: float = 64
-@export var hex_height: float = 48
+@export var hex_height: float = 64
 
 # Noise objects
 var terrain_noise := FastNoiseLite.new()
