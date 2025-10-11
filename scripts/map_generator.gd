@@ -6,8 +6,6 @@ extends Node2D
 @export var hex_width: float = 64
 @export var hex_height: float = 48
 
-var tiles = []
-
 # Noise objects
 var terrain_noise := FastNoiseLite.new()
 
@@ -39,7 +37,7 @@ func generate_map():
 				tile_instance.terrainType = "water"
 			elif n < 0.4:
 				tile_instance.terrainType = "grass"
-			elif n < 0.2:
+			else:
 				tile_instance.terrainType = "snow"
 
 			## Optional: resource placement
