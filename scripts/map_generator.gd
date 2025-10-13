@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var hex_tile_scene: PackedScene
+@export var player: PackedScene
 @export var map_width: int = 25
 @export var map_height: int = 25
 @export var tile_size: float = 64.0
@@ -16,6 +17,7 @@ func _ready():
 
 	generate_map()
 	connect_neighbors()
+	place_player()
 
 func generate_map():
 	tiles.clear()
@@ -39,12 +41,9 @@ func generate_map():
 			else:
 				tile_instance.terrainType = "snow"
 			
-			if "grid_x" in tile_instance:
-				tile_instance.grid_x = x
-			if "grid_y" in tile_instance:
-				tile_instance.grid_y = y
-			if "neighbors" in tile_instance:
-				tile_instance.neighbors = []
+			tile_instance.grid_x = x
+			tile_instance.grid_y = y
+			tile_instance.neighbors.clear()
 				
 			add_child(tile_instance)
 			tiles[y].append(tile_instance)
@@ -72,8 +71,29 @@ func connect_neighbors():
 				var ny = y + int(d.y)
 				if nx >= 0 and nx < map_width and ny >= 0 and ny < map_height:
 					t.neighbors.append(tiles[ny][nx])
-			
+	
+	print("Tile (0,0) neighbors: ", tiles[0][0].neighbors.size())
+	print("Tile (1,0) neighbors: ", tiles[1][0].neighbors.size())
+	print("Tile (7,7) neighbors: ", tiles[7][7].neighbors.size())
+	print("Tile (25,25) neighbors: ", tiles[24][24].neighbors.size())
+
 func get_tile(x: int, y: int) -> Node:
 	if y >= 0 and y < map_height and x >= 0 and x < map_width:
 		return tiles[y][x]
 	return null
+	
+func place_player(x: int = 0, y: int = 0):
+	if player == null:
+		push_error("Player scene not found")
+		return
+	
+	var tile = get_tile(x,y)
+	if tile == null:
+		push_error("Tile not found")
+		return
+	
+	var player_instance = player.instantiate()
+	add_child(player_instance)
+	
+	player_instance.position = tile.position
+	player_instance.z_index = 1

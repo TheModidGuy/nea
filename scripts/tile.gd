@@ -3,10 +3,10 @@ extends Node2D
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
+var neighbors: Array = []
 var cost: int = 0
 var grid_x: int = 0
 var grid_y: int = 0
-var neighbors: Array = []
 
 # Terrain presets (sprite + cost)
 var TERRAIN_PRESETS = {

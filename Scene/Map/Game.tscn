@@ -5,6 +5,8 @@
 
 [node name="Game" type="Node"]
 
+[node name="Entities" type="Node2D" parent="."]
+
 [node name="Camera" type="Node" parent="."]
 
 [node name="MainCamera" parent="Camera" instance=ExtResource("1_bmxq8")]
