@@ -3,6 +3,11 @@ extends Node2D
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
+var cost: int = 0
+var grid_x: int = 0
+var grid_y: int = 0
+var neighbors: Array = []
+
 # Terrain presets (sprite + cost)
 var TERRAIN_PRESETS = {
 	"grass": {"spritePath": "res://Assets/Sprites/Tiles/grass.png", "cost": 2},
@@ -11,10 +16,7 @@ var TERRAIN_PRESETS = {
 }
 
 # Exported terrain type with setter
-@export var terrainType: String = "grass"
-
-# Terrain-specific variable
-var cost: int = 0
+@export var terrainType: String = "grass" : set = set_terrain
 
 # Track last applied terrain to prevent double application
 var _last_applied: String = ""

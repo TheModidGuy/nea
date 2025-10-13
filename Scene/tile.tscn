@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c5h2up1fankgb"]
 
 [ext_resource type="Script" uid="uid://bnplqmvpr3rv6" path="res://scripts/tile.gd" id="1_gcyve"]
-[ext_resource type="Texture2D" uid="uid://4dk3dguaxva2" path="res://Assets/Sprites/Tiles/tile.png" id="2_gdj8f"]
+[ext_resource type="Texture2D" uid="uid://b0a8vvl5uorn1" path="res://Assets/Sprites/Tiles/tile.png" id="2_gdj8f"]
 
 [node name="HexTile" type="Node2D"]
 script = ExtResource("1_gcyve")
