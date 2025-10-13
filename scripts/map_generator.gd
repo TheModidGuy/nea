@@ -17,7 +17,7 @@ func _ready():
 
 	generate_map()
 	connect_neighbors()
-	place_player()
+	place_player(0,0)
 
 func generate_map():
 	tiles.clear()
