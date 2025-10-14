@@ -17,7 +17,7 @@ func _ready():
 
 	generate_map()
 	connect_neighbors()
-	place_player(0,0)
+	place_player(4,4)
 
 func generate_map():
 	tiles.clear()
@@ -97,3 +97,9 @@ func place_player(x: int = 0, y: int = 0):
 	
 	player_instance.position = tile.position
 	player_instance.z_index = 1
+	
+	player_instance.currentTile = tile
+	print("Player spawned at x: {x} y: {y}".format({
+	"x": player_instance.currentTile.grid_x,
+	"y": player_instance.currentTile.grid_y
+}))
