@@ -8,3 +8,6 @@
 script = ExtResource("1_urt8w")
 hex_tile_scene = ExtResource("2_34yyu")
 player = ExtResource("3_i1l0k")
+map_width = null
+map_height = null
+tile_size = null

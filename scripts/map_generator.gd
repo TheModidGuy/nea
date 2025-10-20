@@ -10,6 +10,9 @@ extends Node2D
 var terrain_noise := FastNoiseLite.new()
 var tiles: Array = []
 
+var highlight_sprite: Sprite2D = null
+var last_highlighted_tile: Node = null
+
 func _ready():
 	randomize()
 	terrain_noise.seed = randi()
@@ -18,6 +21,14 @@ func _ready():
 	generate_map()
 	connect_neighbors()
 	place_player(4,4)
+	
+func _unhandled_input(event):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		var mouse_pos = get_global_mouse_position()
+		var clicked_tile = get_tile_from_mouse(mouse_pos)
+		if clicked_tile:
+			highlight_tile(clicked_tile)
+
 
 func generate_map():
 	tiles.clear()
@@ -103,3 +114,28 @@ func place_player(x: int = 0, y: int = 0):
 	"x": player_instance.currentTile.grid_x,
 	"y": player_instance.currentTile.grid_y
 }))
+
+func get_tile_from_mouse(mouse_pos: Vector2) -> Node:
+	for y in range(map_height):
+		for x in range(map_width):
+			var tile = tiles[y][x]
+			var tile_pos = tile.position
+			var half_size = tile_size / 2
+			if abs(mouse_pos.x - tile_pos.x) < half_size and abs(mouse_pos.y - tile_pos.y) < half_size:
+				return tile
+	return null
+
+
+func highlight_tile(tile: Node):
+	if last_highlighted_tile == tile:
+		return
+
+	if highlight_sprite:
+		highlight_sprite.queue_free()
+
+	highlight_sprite = Sprite2D.new()
+	highlight_sprite.texture = load("res://Assets/Sprites/Tiles/tileHighlight.png")
+	highlight_sprite.position = tile.position
+	add_child(highlight_sprite)
+
+	last_highlighted_tile = tile
