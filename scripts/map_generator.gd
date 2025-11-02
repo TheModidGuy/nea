@@ -22,6 +22,8 @@ func _ready():
 	connect_neighbors()
 	place_player(4,4)
 	
+
+
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		var mouse_pos = get_global_mouse_position()

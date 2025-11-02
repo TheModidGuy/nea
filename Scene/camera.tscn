@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c2cq5jjjb88ml"]
+[gd_scene load_steps=4 format=3 uid="uid://c2cq5jjjb88ml"]
 
-[ext_resource type="Script" uid="uid://bna1hm34ud4dm" path="res://scripts/camera.gd" id="1_veevr"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="1_veevr"]
 [ext_resource type="Texture2D" uid="uid://xjxqsd8lwvkj" path="res://Assets/Sprites/cam overlay/overlay.png" id="2_ew7ih"]
+[ext_resource type="Script" uid="uid://kfhwmdde8u2a" path="res://scripts/overlay.gd" id="3_uwrrs"]
 
 [node name="MainCamera" type="Node2D"]
 
@@ -13,3 +14,11 @@ script = ExtResource("1_veevr")
 [node name="camoverlay" type="Sprite2D" parent="CanvasLayer"]
 position = Vector2(640, 360)
 texture = ExtResource("2_ew7ih")
+script = ExtResource("3_uwrrs")
+
+[node name="Label_info" type="Label" parent="CanvasLayer/camoverlay"]
+offset_left = -627.0
+offset_top = 164.0
+offset_right = -406.0
+offset_bottom = 339.0
+text = "Test"
