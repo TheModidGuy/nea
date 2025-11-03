@@ -1,5 +1,7 @@
 extends Node2D
 
+var overlay: Node = null
+
 @export var hex_tile_scene: PackedScene
 @export var player: PackedScene
 @export var map_width: int = 25
@@ -17,19 +19,19 @@ func _ready():
 	randomize()
 	terrain_noise.seed = randi()
 	terrain_noise.frequency = 0.1
-
+	
 	generate_map()
 	connect_neighbors()
-	place_player(4,4)
-	
-
+	place_player(5,4)
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		var mouse_pos = get_global_mouse_position()
 		var clicked_tile = get_tile_from_mouse(mouse_pos)
 		if clicked_tile:
-			highlight_tile(clicked_tile)
+			highlight_tile(clicked_tile)#
+			if overlay:
+				overlay.update_tile_info(clicked_tile)
 
 
 func generate_map():
@@ -141,3 +143,4 @@ func highlight_tile(tile: Node):
 	add_child(highlight_sprite)
 
 	last_highlighted_tile = tile
+	

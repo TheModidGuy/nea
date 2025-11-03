@@ -5,20 +5,22 @@ extends Sprite2D
 @onready var label_position: Label = $Label_Position
 @onready var label_resource: Label = $Label_Resource
 
-#func update_tile_info(tile):
-	#if tile == null:
-		#clear_info()
-		#return
-	#label_tile_type.text = 
+func update_tile_info(tile):
+	if tile == null:
+		clear_info()
+		return
+	label_tile_type.text = "Terrain: %s" % tile.terrainType.capitalize()
+	label_movement_cost.text = "Cost to Move: %d" % tile.cost
+	label_position.text = "Grid Position: (%d, %d)" % [tile.grid_x, tile.grid_y]
+	
+	# Resources: 
+	#if tile.has_meta("resource") and tile.get_meta("resource") != "":
+		#label_resource.text = "Resource: %s" % str(tile.get_meta("resource"))
+	#else:
+		#label_resource.text = "Resource: None"
 
-
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func clear_info():
+	label_tile_type.text = ""
+	label_movement_cost.text = ""
+	label_position.text = ""
+	label_resource.text = ""
