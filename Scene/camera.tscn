@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c2cq5jjjb88ml"]
 
-[ext_resource type="Script" path="res://scripts/camera.gd" id="1_veevr"]
+[ext_resource type="Script" uid="uid://bna1hm34ud4dm" path="res://scripts/camera.gd" id="1_veevr"]
 [ext_resource type="Texture2D" uid="uid://xjxqsd8lwvkj" path="res://Assets/Sprites/cam overlay/overlay.png" id="2_ew7ih"]
 [ext_resource type="Script" uid="uid://kfhwmdde8u2a" path="res://scripts/overlay.gd" id="3_uwrrs"]
 
@@ -16,9 +16,47 @@ position = Vector2(640, 360)
 texture = ExtResource("2_ew7ih")
 script = ExtResource("3_uwrrs")
 
-[node name="Label_info" type="Label" parent="CanvasLayer/camoverlay"]
-offset_left = -627.0
-offset_top = 164.0
-offset_right = -406.0
-offset_bottom = 339.0
-text = "Test"
+[node name="Label_Title" type="Label" parent="CanvasLayer/camoverlay"]
+offset_left = -630.0
+offset_top = 159.0
+offset_right = -506.0
+offset_bottom = 201.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Tile Info:"
+
+[node name="Label_TileType" type="Label" parent="CanvasLayer/camoverlay"]
+offset_left = -630.0
+offset_top = 202.0
+offset_right = -274.0
+offset_bottom = 244.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Terrain:"
+
+[node name="Label_MovementCost" type="Label" parent="CanvasLayer/camoverlay"]
+offset_left = -630.0
+offset_top = 240.0
+offset_right = -276.0
+offset_bottom = 282.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Cost:"
+
+[node name="Label_Position" type="Label" parent="CanvasLayer/camoverlay"]
+offset_left = -630.0
+offset_top = 276.0
+offset_right = -267.0
+offset_bottom = 318.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Position:"
+
+[node name="Label_Resource" type="Label" parent="CanvasLayer/camoverlay"]
+offset_left = -630.0
+offset_top = 309.0
+offset_right = -261.0
+offset_bottom = 351.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Resources:"
