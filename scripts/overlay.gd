@@ -5,6 +5,9 @@ extends Sprite2D
 @onready var label_position: Label = $Label_Position
 @onready var label_resource: Label = $Label_Resource
 
+func _ready():
+	add_to_group("OverlayUI")
+
 func update_tile_info(tile):
 	if tile == null:
 		clear_info()

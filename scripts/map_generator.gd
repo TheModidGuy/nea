@@ -20,6 +20,12 @@ func _ready():
 	terrain_noise.seed = randi()
 	terrain_noise.frequency = 0.1
 	
+	var overlays = get_tree().get_nodes_in_group("OverlayUI")
+	if overlays.size() > 0:
+		overlay = overlays[0]
+	else:
+		push_warning("Overlay not found")
+	
 	generate_map()
 	connect_neighbors()
 	place_player(5,4)
