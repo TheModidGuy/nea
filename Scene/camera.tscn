@@ -60,3 +60,12 @@ offset_bottom = 351.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 text = "Resources:"
+
+[node name="Button" type="Node" parent="CanvasLayer/camoverlay"]
+
+[node name="MoveButton" type="Button" parent="CanvasLayer/camoverlay/Button"]
+offset_left = 1081.0
+offset_top = 567.0
+offset_right = 1270.0
+offset_bottom = 710.0
+text = "Move"

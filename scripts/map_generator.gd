@@ -2,6 +2,8 @@ extends Node2D
 
 var overlay: Node = null
 
+var player_instance: Node = null
+
 @export var hex_tile_scene: PackedScene
 @export var player: PackedScene
 @export var map_width: int = 25
@@ -113,11 +115,11 @@ func place_player(x: int = 0, y: int = 0):
 		push_error("Tile not found")
 		return
 	
-	var player_instance = player.instantiate()
+	player_instance = player.instantiate()
 	add_child(player_instance)
 	
 	player_instance.position = tile.position
-	player_instance.z_index = 1
+	player_instance.z_index = 10
 	
 	player_instance.currentTile = tile
 	print("Player spawned at x: {x} y: {y}".format({
@@ -150,3 +152,10 @@ func highlight_tile(tile: Node):
 
 	last_highlighted_tile = tile
 	
+
+func move_player_to(tile):
+	if player_instance == null:
+		push_warning("Player not found")
+		return
+	
+	player_instance.moveToTile(tile)

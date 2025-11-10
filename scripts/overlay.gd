@@ -27,3 +27,15 @@ func clear_info():
 	label_movement_cost.text = ""
 	label_position.text = ""
 	label_resource.text = ""
+
+
+func _on_move_button_pressed() -> void:
+	if map == null:
+		return
+
+	var tile_to_move = map.last_highlighted_tile
+	if tile_to_move == null:
+		print("No tile selected")
+		return
+		
+	map.move_player_to(tile_to_move)
