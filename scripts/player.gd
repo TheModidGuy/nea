@@ -1,7 +1,9 @@
 extends Node2D
 
 var currentTile: Node = null
-var energy: int = 100
+var energy: int = 50
+var health: int = 25
+var outOfEnergy: bool = false
 
 func moveToTile(tile):
 	if currentTile == tile:
@@ -11,11 +13,16 @@ func moveToTile(tile):
 		return
 		
 	var cost = tile.cost
-	if energy < cost:
+	
+	if energy < cost or energy - cost < 0:
 		print("Not enough energy")
-		return
+		outOfEnergy = true
+		if health > 20:
+			health -= 1
+		print("Health: ", health)
 		
 	position = tile.position
 	currentTile = tile
-	energy -= cost
+	if !outOfEnergy:
+		energy -= cost
 	print("Moved to: ", tile.terrainType, "Energy left: ", energy)
