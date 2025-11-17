@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c2cq5jjjb88ml"]
 
-[ext_resource type="Script" uid="uid://bna1hm34ud4dm" path="res://scripts/camera.gd" id="1_veevr"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="1_veevr"]
 [ext_resource type="Texture2D" uid="uid://xjxqsd8lwvkj" path="res://Assets/Sprites/cam overlay/overlay.png" id="2_ew7ih"]
 [ext_resource type="Script" uid="uid://kfhwmdde8u2a" path="res://scripts/overlay.gd" id="3_uwrrs"]
 

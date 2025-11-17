@@ -1,5 +1,7 @@
 extends Sprite2D
 
+var map: Node = null
+
 @onready var label_tile_type: Label = $Label_TileType
 @onready var label_movement_cost: Label = $Label_MovementCost
 @onready var label_position: Label = $Label_Position
@@ -7,6 +9,10 @@ extends Sprite2D
 
 func _ready():
 	add_to_group("OverlayUI")
+
+func _unhandled_input(event):
+	if event.is_action_pressed("player_move"):
+		_on_move_button_pressed()
 
 func update_tile_info(tile):
 	if tile == null:
@@ -36,6 +42,17 @@ func _on_move_button_pressed() -> void:
 	var tile_to_move = map.last_highlighted_tile
 	if tile_to_move == null:
 		print("No tile selected")
+		return
+
+	var player = map.player_instance
+	if player == null:
+		print("Player not found")
+		return
+	
+	# Enforce neighbour rule
+	var current_tile = player.currentTile
+	if tile_to_move not in current_tile.neighbors:
+		print("Tile not adjacent")
 		return
 		
 	map.move_player_to(tile_to_move)
