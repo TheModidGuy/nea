@@ -33,7 +33,7 @@ func _ready():
 	
 	generate_map()
 	connect_neighbors()
-	place_player(5,4)
+	place_player(4,4)
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
