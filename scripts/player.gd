@@ -15,6 +15,7 @@ func moveToTile(tile):
 	var cost = tile.cost
 	
 	if energy < cost or energy - cost < 0:
+		energy = 0
 		print("Not enough energy")
 		outOfEnergy = true
 		if health > 20:

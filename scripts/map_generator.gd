@@ -154,7 +154,7 @@ func highlight_tile(tile: Node):
 	add_child(highlight_sprite)
 
 	last_highlighted_tile = tile
-	
+
 
 func move_player_to(tile):
 	if player_instance == null:
@@ -162,3 +162,32 @@ func move_player_to(tile):
 		return
 	
 	player_instance.moveToTile(tile)
+
+func manhattan(a, b):
+	return abs(a.grid_x - b.grid_x) + abs(a.grid_y - b.grid_y)
+
+func lowest_f(open_set: Dictionary, f_score: Dictionary):
+	var best = null
+	var best_f = INF
+	
+	for node in open_set.keys():
+		var f = f_score.get(node, INF)
+		if f < best_f:
+			best_f = f
+			best = node
+	return best
+
+func A_star(start_tile, goal_tile) -> Array:
+	var open_set := {start_tile : true}
+	var came_from := {}
+	
+	var g_score := {}
+	g_score[start_tile] = 0
+	
+	var f_score := {}
+	f_score[start_tile] = manhattan(start_tile, goal_tile)
+	
+	while open_set.size() > 0:
+		var current = lowest_f(open_set, f_score)
+		
+		if 
