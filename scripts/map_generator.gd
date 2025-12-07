@@ -2,10 +2,13 @@ extends Node2D
 
 var overlay: Node = null
 
+const INF: int = 1_000_000_000
+
 var player_instance: Node = null
 
 @export var hex_tile_scene: PackedScene
 @export var player: PackedScene
+@export var enemy_scene: PackedScene
 @export var map_width: int = 25
 @export var map_height: int = 25
 @export var tile_size: float = 64.0
@@ -16,6 +19,8 @@ var tiles: Array = []
 
 var highlight_sprite: Sprite2D = null
 var last_highlighted_tile: Node = null
+
+var enemies: Array = []
 
 func _ready():
 	randomize()
@@ -34,6 +39,9 @@ func _ready():
 	generate_map()
 	connect_neighbors()
 	place_player(4,4)
+	spawn_enemy(10,10)
+	
+	player_instance.connect("moved",Callable(self, "enemy_turn"))
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -130,6 +138,20 @@ func place_player(x: int = 0, y: int = 0):
 	"y": player_instance.currentTile.grid_y
 }))
 
+func spawn_enemy(x: int, y: int):
+	var tile = get_tile(x,y)
+	if tile == null:
+		push_error("Spawn tile not found")
+		return
+	var e = enemy_scene.instantiate()
+	add_child(e)
+	
+	e.position = tile.position
+	e.currentTile = tile
+	
+	enemies.append(e)
+	return e
+
 func get_tile_from_mouse(mouse_pos: Vector2) -> Node:
 	for y in range(map_height):
 		for x in range(map_width):
@@ -161,33 +183,88 @@ func move_player_to(tile):
 		push_warning("Player not found")
 		return
 	
-	player_instance.moveToTile(tile)
+	if player_instance.moveToTile(tile):
+		enemy_turn()
 
-func manhattan(a, b):
+func enemy_turn():
+	if player_instance == null:
+		return
+	
+	var goal_tile = player_instance.currentTile
+	if goal_tile == null:
+		push_error("Player location lost")
+		return
+	
+	for enemy in enemies:
+		if not is_instance_valid(enemy):
+			continue
+		if enemy.currentTile == null:
+			continue
+		
+		var start_tile = enemy.currentTile
+		var path = A_star(start_tile, goal_tile)
+		
+		if path.size() > 1:
+			var next_tile = path[1]
+			enemy.position = next_tile.position
+			enemy.currentTile = next_tile
+
+# -----------------------------------------------------
+# THIS IS ALL FOR THE A* ALGORITHM
+# -----------------------------------------------------
+
+func heuristic(a: Node, b: Node) -> int:
+	# Manhattan
 	return abs(a.grid_x - b.grid_x) + abs(a.grid_y - b.grid_y)
 
-func lowest_f(open_set: Dictionary, f_score: Dictionary):
-	var best = null
-	var best_f = INF
-	
+func _lowest_f(open_set: Dictionary, f_score: Dictionary) -> Node:
+	var best: Node = null
+	var best_f: int = INF
 	for node in open_set.keys():
-		var f = f_score.get(node, INF)
+		var f = int(f_score.get(node, INF))
 		if f < best_f:
 			best_f = f
 			best = node
 	return best
 
-func A_star(start_tile, goal_tile) -> Array:
-	var open_set := {start_tile : true}
-	var came_from := {}
-	
-	var g_score := {}
+func _reconstruct(came_from: Dictionary, current: Node) -> Array:
+	var path: Array = [current]
+	while came_from.has(current):
+		current = came_from[current]
+		path.push_front(current)
+	return path
+
+func A_star(start_tile: Node, goal_tile: Node) -> Array:
+	var open_set: Dictionary = {start_tile: true}
+	var came_from: Dictionary = {}
+	var g_score: Dictionary = {}
 	g_score[start_tile] = 0
-	
-	var f_score := {}
-	f_score[start_tile] = manhattan(start_tile, goal_tile)
+	var f_score: Dictionary = {}
+	f_score[start_tile] = int(heuristic(start_tile, goal_tile))
 	
 	while open_set.size() > 0:
-		var current = lowest_f(open_set, f_score)
+		var current: Node = _lowest_f(open_set, f_score)
+		if current == goal_tile:
+			return _reconstruct(came_from, current)
 		
-		if 
+		open_set.erase(current)
+		
+		for neighbor in current.neighbors:
+			if int(neighbor.cost) >= INF:
+				continue
+			
+			var current_g: int = int(g_score.get(current, INF))
+			var tentative_g: int = current_g + int(neighbor.cost)
+			var neighbor_g: int = int(g_score.get(neighbor, INF))
+			
+			if tentative_g < neighbor_g:
+				came_from[neighbor] = current
+				g_score[neighbor] = tentative_g
+				f_score[neighbor] = tentative_g + int(heuristic(neighbor, goal_tile))
+				open_set[neighbor] = true
+				
+	return []
+
+# -----------------------------------------------------
+# THIS IS THE END FOR THE A* ALGORITHM
+# -----------------------------------------------------

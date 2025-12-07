@@ -1,16 +1,20 @@
 extends Node2D
 
+# this code is so shit see if I can make it better later
+
 var currentTile: Node = null
 var energy: int = 50
 var health: int = 25
 var outOfEnergy: bool = false
 
-func moveToTile(tile):
+signal moved(new_tile)
+
+func moveToTile(tile) -> bool:
 	if currentTile == tile:
-		return
+		return false
 	if tile not in currentTile.neighbors:
 		print("Tile not adjacent")
-		return
+		return false
 		
 	var cost = tile.cost
 	
@@ -27,3 +31,6 @@ func moveToTile(tile):
 	if !outOfEnergy:
 		energy -= cost
 	print("Moved to: ", tile.terrainType, "Energy left: ", energy)
+
+	emit_signal("moved", tile)
+	return true
