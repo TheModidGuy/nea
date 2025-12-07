@@ -213,6 +213,8 @@ func enemy_turn():
 # THIS IS ALL FOR THE A* ALGORITHM
 # -----------------------------------------------------
 
+# I am so shocked this works. Lord Jesus Christ, please make sure this code does not randomly break
+
 func heuristic(a: Node, b: Node) -> int:
 	# Manhattan
 	return abs(a.grid_x - b.grid_x) + abs(a.grid_y - b.grid_y)
