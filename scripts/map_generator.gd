@@ -12,6 +12,7 @@ var player_instance: Node = null
 @export var map_width: int = 25
 @export var map_height: int = 25
 @export var tile_size: float = 64.0
+@export var count: int = 0
 
 # Noise objects
 var terrain_noise := FastNoiseLite.new()
@@ -36,10 +37,14 @@ func _ready():
 	else:
 		push_warning("Overlay not found")
 	
+	
+	
 	generate_map()
 	connect_neighbors()
 	place_player(4,4)
-	spawn_enemy(10,10)
+	
+	game_spawn_enemy(count)
+	
 	
 	player_instance.connect("moved",Callable(self, "enemy_turn"))
 
@@ -151,6 +156,16 @@ func spawn_enemy(x: int, y: int):
 	
 	enemies.append(e)
 	return e
+
+# This is for spawning multiple enemies
+func game_spawn_enemy(count):
+	if count == 0:
+		return
+	else:
+		for e in count:
+			var enemy_spawn_x = randi_range(0,24)
+			var enemy_spawn_y = randi_range(0,24)
+			spawn_enemy(enemy_spawn_x,enemy_spawn_y)
 
 func get_tile_from_mouse(mouse_pos: Vector2) -> Node:
 	for y in range(map_height):

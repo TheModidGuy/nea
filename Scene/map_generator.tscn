@@ -3,10 +3,11 @@
 [ext_resource type="Script" uid="uid://hioh1fahnxi" path="res://scripts/map_generator.gd" id="1_urt8w"]
 [ext_resource type="PackedScene" uid="uid://c5h2up1fankgb" path="res://Scene/tile.tscn" id="2_34yyu"]
 [ext_resource type="PackedScene" uid="uid://7r2dbahwdjbw" path="res://Scene/player_scene.tscn" id="3_i1l0k"]
-[ext_resource type="PackedScene" uid="uid://bq8pnp0i0nk2j" path="res://Scene/enemy_scene.tscn" id="4_awgdn"]
+[ext_resource type="PackedScene" uid="uid://c36wjgi5no8ck" path="res://Scene/enemy_scene.tscn" id="4_awgdn"]
 
 [node name="MapGenerator" type="Node2D"]
 script = ExtResource("1_urt8w")
 hex_tile_scene = ExtResource("2_34yyu")
 player = ExtResource("3_i1l0k")
 enemy_scene = ExtResource("4_awgdn")
+count = 10
