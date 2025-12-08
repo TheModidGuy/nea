@@ -43,7 +43,7 @@ func _ready():
 	connect_neighbors()
 	place_player(4,4)
 	
-	game_spawn_enemy(count)
+	game_spawn_enemy()
 	
 	
 	player_instance.connect("moved",Callable(self, "enemy_turn"))
@@ -158,7 +158,7 @@ func spawn_enemy(x: int, y: int):
 	return e
 
 # This is for spawning multiple enemies
-func game_spawn_enemy(count):
+func game_spawn_enemy():
 	if count == 0:
 		return
 	else:
