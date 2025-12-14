@@ -8,7 +8,11 @@ var player_instance: Node = null
 
 @export var hex_tile_scene: PackedScene
 @export var player: PackedScene
+# base test (delete later??)
 @export var enemy_scene: PackedScene
+@export var wolf_scene: PackedScene
+@export var bandit_scene: PackedScene
+
 @export var map_width: int = 25
 @export var map_height: int = 25
 @export var tile_size: float = 64.0
@@ -148,14 +152,16 @@ func spawn_enemy(x: int, y: int):
 	if tile == null:
 		push_error("Spawn tile not found")
 		return
-	var e = enemy_scene.instantiate()
-	add_child(e)
+	var e
+	if randi() % 2 == 0:
+		e = wolf_scene.instantiate()
+	else:
+		e = bandit_scene.instantiate()
 	
+	add_child(e)
 	e.position = tile.position
 	e.currentTile = tile
-	
 	enemies.append(e)
-	return e
 
 # This is for spawning multiple enemies
 func game_spawn_enemy():
@@ -217,7 +223,7 @@ func enemy_turn():
 			continue
 		
 		var start_tile = enemy.currentTile
-		var path = A_star(start_tile, goal_tile)
+		var path = A_star(start_tile, goal_tile, enemy)
 		
 		if path.size() > 1:
 			var next_tile = path[1]
@@ -251,7 +257,7 @@ func _reconstruct(came_from: Dictionary, current: Node) -> Array:
 		path.push_front(current)
 	return path
 
-func A_star(start_tile: Node, goal_tile: Node) -> Array:
+func A_star(start_tile: Node, goal_tile: Node, enemy: Enemy) -> Array:
 	var open_set: Dictionary = {start_tile: true}
 	var came_from: Dictionary = {}
 	var g_score: Dictionary = {}
@@ -267,11 +273,12 @@ func A_star(start_tile: Node, goal_tile: Node) -> Array:
 		open_set.erase(current)
 		
 		for neighbor in current.neighbors:
-			if int(neighbor.cost) >= INF:
+			var move_cost = enemy.get_tile_cost(neighbor)
+			if move_cost >= INF:
 				continue
 			
 			var current_g: int = int(g_score.get(current, INF))
-			var tentative_g: int = current_g + int(neighbor.cost)
+			var tentative_g: int = current_g + move_cost
 			var neighbor_g: int = int(g_score.get(neighbor, INF))
 			
 			if tentative_g < neighbor_g:

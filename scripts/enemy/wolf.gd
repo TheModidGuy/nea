@@ -22,6 +22,11 @@ func _ready():
 
 	crit_chance_min = 0
 	crit_chance_max = 10
+	
+	super._ready()
 
 func get_tile_cost(tile: Node) -> int:
-	
+	if tile.terrainType == "grass" || tile.terrainType == "snow":
+		return 1
+	else:
+		return 1000000

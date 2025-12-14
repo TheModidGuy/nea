@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://ptp4btnwrw44"]
+[gd_scene load_steps=3 format=3 uid="uid://ptp4btnwrw44"]
 
 [ext_resource type="Script" uid="uid://b3v1v0sm4u2sd" path="res://scripts/enemy/wolf.gd" id="1_qbmp3"]
+[ext_resource type="Texture2D" uid="uid://ciqyhv0m10bqq" path="res://Assets/Sprites/enemy/wolf-Photoroom.png" id="2_wcpap"]
 
 [node name="wolf" type="Node2D"]
 script = ExtResource("1_qbmp3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_wcpap")
