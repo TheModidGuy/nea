@@ -57,7 +57,7 @@ func _unhandled_input(event):
 		var mouse_pos = get_global_mouse_position()
 		var clicked_tile = get_tile_from_mouse(mouse_pos)
 		if clicked_tile:
-			highlight_tile(clicked_tile)#
+			highlight_tile(clicked_tile)
 			if overlay:
 				overlay.update_tile_info(clicked_tile)
 
