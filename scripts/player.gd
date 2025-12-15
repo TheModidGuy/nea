@@ -1,6 +1,5 @@
 extends Node2D
 
-# this code is so shit see if I can make it better later
 
 var currentTile: Node = null
 var energy: int = 50
