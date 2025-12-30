@@ -1,18 +1,19 @@
-extends Sprite2D
+extends Control
+
+
+signal move_requested
 
 var map: Node = null
 
-@onready var label_tile_type: Label = $Label_TileType
-@onready var label_movement_cost: Label = $Label_MovementCost
-@onready var label_position: Label = $Label_Position
-@onready var label_resource: Label = $Label_Resource
+
+@onready var label_tile_type: Label = $TextureRect/Label_TileType
+@onready var label_movement_cost: Label = $TextureRect/Label_MovementCost
+@onready var label_position: Label = $TextureRect/Label_Position
+@onready var label_resource: Label = $TextureRect/Label_Resource
 
 func _ready():
 	add_to_group("OverlayUI")
 
-func _unhandled_input(event):
-	if event.is_action_pressed("player_move"):
-		_on_move_button_pressed()
 
 func update_tile_info(tile):
 	if tile == null:
@@ -36,23 +37,24 @@ func clear_info():
 
 
 func _on_move_button_pressed() -> void:
-	if map == null:
-		return
-
-	var tile_to_move = map.last_highlighted_tile
-	if tile_to_move == null:
-		print("No tile selected")
-		return
-
-	var player = map.player_instance
-	if player == null:
-		print("Player not found")
-		return
-	
-	# Enforce neighbour rule
-	var current_tile = player.currentTile
-	if tile_to_move not in current_tile.neighbors:
-		print("Tile not adjacent")
-		return
-		
-	map.move_player_to(tile_to_move)
+	emit_signal("move_requested")
+	#if map == null:
+		#return
+#
+	#var tile_to_move = map.last_highlighted_tile
+	#if tile_to_move == null:
+		#print("No tile selected")
+		#return
+#
+	#var player = map.player_instance
+	#if player == null:
+		#print("Player not found")
+		#return
+	#
+	## Enforce neighbour rule
+	#var current_tile = player.currentTile
+	#if tile_to_move not in current_tile.neighbors:
+		#print("Tile not adjacent")
+		#return
+		#
+	#map.move_player_to(tile_to_move)

@@ -41,7 +41,7 @@ func _ready():
 	else:
 		push_warning("Overlay not found")
 	
-	
+	overlay.move_requested.connect(request_player_move)
 	
 	generate_map()
 	connect_neighbors()
@@ -60,6 +60,15 @@ func _unhandled_input(event):
 			highlight_tile(clicked_tile)
 			if overlay:
 				overlay.update_tile_info(clicked_tile)
+	if event.is_action_pressed("player_move"):
+		request_player_move()
+
+func request_player_move():
+	var tile_to_move = last_highlighted_tile
+	if tile_to_move == null:
+		return
+		
+	move_player_to(tile_to_move)
 
 
 func generate_map():
