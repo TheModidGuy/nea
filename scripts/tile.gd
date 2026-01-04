@@ -12,7 +12,8 @@ var grid_y: int = 0
 var TERRAIN_PRESETS = {
 	"grass": {"spritePath": "res://Assets/Sprites/Tiles/grass.png", "cost": 2},
 	"water": {"spritePath": "res://Assets/Sprites/Tiles/water.png", "cost": 5},
-	"snow": {"spritePath": "res://Assets/Sprites/Tiles/snow.png", "cost": 4}
+	"snow": {"spritePath": "res://Assets/Sprites/Tiles/snow.png", "cost": 4},
+	"mountain": {"spritePath": "res://Assets/Sprites/Tiles/mountain.png", "cost": 10}
 }
 
 # Exported terrain type with setter

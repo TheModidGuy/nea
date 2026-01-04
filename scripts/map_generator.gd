@@ -8,10 +8,8 @@ var player_instance: Node = null
 
 @export var hex_tile_scene: PackedScene
 @export var player: PackedScene
-# base test (delete later??)
-@export var enemy_scene: PackedScene
-@export var wolf_scene: PackedScene
-@export var bandit_scene: PackedScene
+@export var enemy_spawner_scene: PackedScene
+var enemy_spawner
 
 @export var map_width: int = 25
 @export var map_height: int = 25
@@ -25,7 +23,6 @@ var tiles: Array = []
 var highlight_sprite: Sprite2D = null
 var last_highlighted_tile: Node = null
 
-var enemies: Array = []
 
 func _ready():
 	randomize()
@@ -43,11 +40,16 @@ func _ready():
 	
 	overlay.move_requested.connect(request_player_move)
 	
+	enemy_spawner = enemy_spawner_scene.instantiate()
+	add_child(enemy_spawner)
+	enemy_spawner.setup(self)
+	
 	generate_map()
 	connect_neighbors()
 	place_player(4,4)
 	
-	game_spawn_enemy()
+	spawn_initial_enemies()
+	
 	
 	
 	player_instance.connect("moved",Callable(self, "enemy_turn"))
@@ -87,6 +89,8 @@ func generate_map():
 			n = (n + 1) / 2  # normalize to 0–1
 
 			if n < 0.3:
+				tile_instance.terrainType = "mountain"
+			elif n < 0.4:
 				tile_instance.terrainType = "water"
 			elif n < 0.6:
 				tile_instance.terrainType = "grass"
@@ -156,31 +160,14 @@ func place_player(x: int = 0, y: int = 0):
 	"y": player_instance.currentTile.grid_y
 }))
 
-func spawn_enemy(x: int, y: int):
-	var tile = get_tile(x,y)
-	if tile == null:
-		push_error("Spawn tile not found")
-		return
-	var e
-	if randi() % 2 == 0:
-		e = wolf_scene.instantiate()
-	else:
-		e = bandit_scene.instantiate()
-	
-	add_child(e)
-	e.position = tile.position
-	e.currentTile = tile
-	enemies.append(e)
+func spawn_initial_enemies():
+	for i in range(count):
+		var x = randi_range(0, map_width - 1)
+		var y = randi_range(0, map_height - 1)
+		var tile = get_tile(x, y)
+		if tile and tile.terrainType != "water":
+			enemy_spawner.spawn_enemy_on_tile(tile)
 
-# This is for spawning multiple enemies
-func game_spawn_enemy():
-	if count == 0:
-		return
-	else:
-		for e in count:
-			var enemy_spawn_x = randi_range(0,24)
-			var enemy_spawn_y = randi_range(0,24)
-			spawn_enemy(enemy_spawn_x,enemy_spawn_y)
 
 func get_tile_from_mouse(mouse_pos: Vector2) -> Node:
 	for y in range(map_height):
@@ -225,7 +212,7 @@ func enemy_turn():
 		push_error("Player location lost")
 		return
 	
-	for enemy in enemies:
+	for enemy in enemy_spawner.enemies:
 		if not is_instance_valid(enemy):
 			continue
 		if enemy.currentTile == null:

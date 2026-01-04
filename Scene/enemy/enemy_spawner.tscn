@@ -1,0 +1,16 @@
+[gd_scene load_steps=6 format=3 uid="uid://droj0kqfp3n4r"]
+
+[ext_resource type="Script" uid="uid://dil42v31exgj2" path="res://scripts/enemy/enemy_spawner.gd" id="1_p02hd"]
+[ext_resource type="PackedScene" uid="uid://ptp4btnwrw44" path="res://Scene/enemy/wolf_scene.tscn" id="2_poo8c"]
+[ext_resource type="Texture2D" uid="uid://fh5s4nei1iio" path="res://Assets/Sprites/resources/monkey-thinking.png" id="2_vehe0"]
+[ext_resource type="PackedScene" uid="uid://b4w1wxfbwg01h" path="res://Scene/enemy/bandit_scene.tscn" id="3_yxnxv"]
+[ext_resource type="PackedScene" uid="uid://3scwiuig5ktq" path="res://Scene/enemy/dragon_scene.tscn" id="4_4f385"]
+
+[node name="EnemySpawner" type="Node2D"]
+script = ExtResource("1_p02hd")
+wolf_scene = ExtResource("2_poo8c")
+bandit_scene = ExtResource("3_yxnxv")
+dragon_scene = ExtResource("4_4f385")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_vehe0")
