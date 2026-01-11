@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bj22mtg858qai"
-path="res://.godot/imported/house2.png-1d56ccf850135dfd995b74e286d9446f.ctex"
+uid="uid://7ljsoadry80w"
+path="res://.godot/imported/dungeon.png-dcd9d36a041608093f9a41e3420d48ef.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/resources/house2.png"
-dest_files=["res://.godot/imported/house2.png-1d56ccf850135dfd995b74e286d9446f.ctex"]
+source_file="res://Assets/Sprites/resources/dungeon.png"
+dest_files=["res://.godot/imported/dungeon.png-dcd9d36a041608093f9a41e3420d48ef.ctex"]
 
 [params]
 

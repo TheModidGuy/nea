@@ -1,0 +1,21 @@
+[gd_scene load_steps=8 format=3 uid="uid://j58lu732nspq"]
+
+[ext_resource type="Texture2D" uid="uid://fh5s4nei1iio" path="res://Assets/Sprites/resources/monkey-thinking.png" id="1_4e3u1"]
+[ext_resource type="Script" uid="uid://d0o6hscxy30ob" path="res://scripts/building.gd" id="1_nahpv"]
+[ext_resource type="Texture2D" uid="uid://cp0uayft70abu" path="res://Assets/Sprites/resources/city.png" id="2_ixuxm"]
+[ext_resource type="Texture2D" uid="uid://k367p7ns8ru2" path="res://Assets/Sprites/resources/shop.png" id="3_fhr5j"]
+[ext_resource type="Texture2D" uid="uid://7ljsoadry80w" path="res://Assets/Sprites/resources/dungeon.png" id="4_ou3y3"]
+[ext_resource type="Texture2D" uid="uid://dvj8wkr8swhhi" path="res://Assets/Sprites/resources/tower.png" id="5_ydlrc"]
+[ext_resource type="Texture2D" uid="uid://blye77d23u37j" path="res://Assets/Sprites/resources/castle.png" id="6_xyldh"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_nahpv")
+city_sprite = ExtResource("2_ixuxm")
+shop_sprite = ExtResource("3_fhr5j")
+dungeon_sprite = ExtResource("4_ou3y3")
+tower_sprite = ExtResource("5_ydlrc")
+castle_sprite = ExtResource("6_xyldh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_4e3u1")

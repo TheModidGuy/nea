@@ -45,5 +45,7 @@ func randomize_stats():
 	crit = randi_range(crit_min, crit_max)
 	crit_chance = randi_range(crit_chance_min, crit_chance_max)
 
-func get_tile_cost(tile: Node) -> int:
+func get_tile_cost(tile) -> int:
+	if tile.has_building:
+		return INF
 	return tile.cost

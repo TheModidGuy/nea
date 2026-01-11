@@ -3,6 +3,8 @@ extends Node2D
 var overlay: Node = null
 
 const INF: int = 1_000_000_000
+const PLAYER_SAFE_RADIUS := 10
+const ENEMY_SAFE_RADIUS := 5
 
 var player_instance: Node = null
 
@@ -15,6 +17,10 @@ var enemy_spawner
 @export var map_height: int = 25
 @export var tile_size: float = 64.0
 @export var count: int = 0
+
+@export var building_scene: PackedScene
+@export var building_count = 0
+var occupied_tiles := []
 
 # Noise objects
 var terrain_noise := FastNoiseLite.new()
@@ -40,14 +46,18 @@ func _ready():
 	
 	overlay.move_requested.connect(request_player_move)
 	
-	enemy_spawner = enemy_spawner_scene.instantiate()
-	add_child(enemy_spawner)
-	enemy_spawner.setup(self)
+	if enemy_spawner_scene == null:
+		push_error("Can't find enemy spawner scene")
+		return
+	else:
+		enemy_spawner = enemy_spawner_scene.instantiate()
+		add_child(enemy_spawner)
+		enemy_spawner.setup(self)
 	
 	generate_map()
 	connect_neighbors()
 	place_player(4,4)
-	
+	spawn_buildings()
 	spawn_initial_enemies()
 	
 	
@@ -71,6 +81,64 @@ func request_player_move():
 		return
 		
 	move_player_to(tile_to_move)
+
+func tile_can_have_building(tile) -> bool:
+	if tile.terrainType == "water":
+		return false
+	if tile in occupied_tiles:
+		return false
+	if player_instance != null and tile == player_instance.currentTile:
+		return false
+	return true
+
+func get_random_free_tile():
+	var attempts := 0
+
+	while attempts < 100:
+		attempts += 1
+		var x := randi_range(0, map_width - 1)
+		var y := randi_range(0, map_height - 1)
+		var tile := get_tile(x, y)
+
+		if tile and tile_can_have_building(tile):
+			return tile
+
+	return null
+
+func spawn_building(tile, forced_type := ""):
+	var building = building_scene.instantiate()
+	building.position = tile.position
+	building.currentTile = tile
+
+	if forced_type != "":
+		building.building_type = forced_type
+	else:
+		building.building_type = building.pick_building_type()
+
+	add_child(building)
+	occupied_tiles.append(tile)
+
+
+
+func spawn_buildings():
+	if building_count < 5:
+		push_error("building_count must be at least 5")
+		return
+	
+	var required := ["city", "shop", "dungeon", "tower", "castle"]
+
+	# Guarantee at least one of each
+	for type in required:
+		var tile = get_random_free_tile()
+		if tile:
+			spawn_building(tile, type)
+
+	# Spawn the rest randomly
+	var remaining: int = building_count - required.size()
+	for i in range(remaining):
+		var tile = get_random_free_tile()
+		if tile:
+			spawn_building(tile)
 
 
 func generate_map():
@@ -161,12 +229,43 @@ func place_player(x: int = 0, y: int = 0):
 }))
 
 func spawn_initial_enemies():
-	for i in range(count):
+	var attempts := 0
+	var spawned := 0
+	var max_attempts := count * 10
+
+	while spawned < count and attempts < max_attempts:
+		attempts += 1
+
 		var x = randi_range(0, map_width - 1)
 		var y = randi_range(0, map_height - 1)
 		var tile = get_tile(x, y)
-		if tile and tile.terrainType != "water":
-			enemy_spawner.spawn_enemy_on_tile(tile)
+
+		if tile == null:
+			continue
+
+		if tile.terrainType == "water":
+			continue
+
+		# Too close to player
+		if player_instance != null:
+			if tile_distance(tile, player_instance.currentTile) < PLAYER_SAFE_RADIUS:
+				continue
+
+		# Too close to other enemies
+		var too_close := false
+		for enemy in enemy_spawner.enemies:
+			if enemy.currentTile == null:
+				continue
+			if tile_distance(tile, enemy.currentTile) < ENEMY_SAFE_RADIUS:
+				too_close = true
+				break
+
+		if too_close:
+			continue
+
+		enemy_spawner.spawn_enemy_on_tile(tile)
+		spawned += 1
+
 
 
 func get_tile_from_mouse(mouse_pos: Vector2) -> Node:
@@ -225,6 +324,10 @@ func enemy_turn():
 			var next_tile = path[1]
 			enemy.position = next_tile.position
 			enemy.currentTile = next_tile
+
+func tile_distance(a: Node, b: Node) -> int:
+	return abs(a.grid_x - b.grid_x) + abs(a.grid_y - b.grid_y)
+
 
 # -----------------------------------------------------
 # THIS IS ALL FOR THE A* ALGORITHM

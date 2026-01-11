@@ -8,6 +8,8 @@ var cost: int = 0
 var grid_x: int = 0
 var grid_y: int = 0
 
+var has_building := false
+
 # Terrain presets (sprite + cost)
 var TERRAIN_PRESETS = {
 	"grass": {"spritePath": "res://Assets/Sprites/Tiles/grass.png", "cost": 2},
