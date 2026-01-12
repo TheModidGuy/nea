@@ -16,4 +16,4 @@ map_height = null
 tile_size = null
 count = 10
 building_scene = ExtResource("5_0sssd")
-building_count = 5
+building_count = 10

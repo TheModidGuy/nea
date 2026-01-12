@@ -73,7 +73,7 @@ offset_right = 379.0
 offset_bottom = 711.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
-text = "Building:"
+text = "Resources:"
 
 [node name="Button" type="Node" parent="CanvasLayer/camoverlay/TextureRect"]
 

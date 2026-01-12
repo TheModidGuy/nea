@@ -23,11 +23,11 @@ func update_tile_info(tile):
 	label_movement_cost.text = "Cost to Move: %d" % tile.cost
 	label_position.text = "Grid Position: (%d, %d)" % [tile.grid_x, tile.grid_y]
 	
-	# Resources: 
-	#if tile.has_meta("resource") and tile.get_meta("resource") != "":
-		#label_resource.text = "Resource: %s" % str(tile.get_meta("resource"))
-	#else:
-		#label_resource.text = "Resource: None"
+	if tile.has_building:
+		label_resource.text = "Building: %s" % tile.building_on_tile.capitalize()
+	else:
+		label_resource.text = "Building: None"
+
 
 func clear_info():
 	label_tile_type.text = ""

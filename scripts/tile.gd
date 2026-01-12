@@ -8,6 +8,7 @@ var cost: int = 0
 var grid_x: int = 0
 var grid_y: int = 0
 
+var building_on_tile: String = ""
 var has_building := false
 
 # Terrain presets (sprite + cost)

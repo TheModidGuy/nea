@@ -115,8 +115,12 @@ func spawn_building(tile, forced_type := ""):
 	else:
 		building.building_type = building.pick_building_type()
 
+	tile.has_building = true
+	tile.building_on_tile = building.building_type
+
 	add_child(building)
 	occupied_tiles.append(tile)
+
 
 
 

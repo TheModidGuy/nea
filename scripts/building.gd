@@ -49,4 +49,5 @@ func pick_building_type() -> String:
 		if roll < current:
 			return b.type
 
+
 	return "city"
