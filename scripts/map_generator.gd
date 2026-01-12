@@ -8,6 +8,9 @@ const ENEMY_SAFE_RADIUS := 5
 
 var player_instance: Node = null
 
+@export var astar_scene: PackedScene
+var astar: Node2D
+
 @export var hex_tile_scene: PackedScene
 @export var player: PackedScene
 @export var enemy_spawner_scene: PackedScene
@@ -45,6 +48,14 @@ func _ready():
 		push_warning("Overlay not found")
 	
 	overlay.move_requested.connect(request_player_move)
+	
+	if astar_scene == null:
+		push_error("AStarScene not assigned")
+		return
+
+	astar = astar_scene.instantiate()
+	add_child(astar)
+
 	
 	if enemy_spawner_scene == null:
 		push_error("Can't find enemy spawner scene")
@@ -322,7 +333,7 @@ func enemy_turn():
 			continue
 		
 		var start_tile = enemy.currentTile
-		var path = A_star(start_tile, goal_tile, enemy)
+		var path = astar.find_path(start_tile, goal_tile, enemy)
 		
 		if path.size() > 1:
 			var next_tile = path[1]
@@ -331,65 +342,3 @@ func enemy_turn():
 
 func tile_distance(a: Node, b: Node) -> int:
 	return abs(a.grid_x - b.grid_x) + abs(a.grid_y - b.grid_y)
-
-
-# -----------------------------------------------------
-# THIS IS ALL FOR THE A* ALGORITHM
-# -----------------------------------------------------
-
-func heuristic(a: Node, b: Node) -> int:
-	# Manhattan
-	return abs(a.grid_x - b.grid_x) + abs(a.grid_y - b.grid_y)
-
-func _lowest_f(open_set: Dictionary, f_score: Dictionary) -> Node:
-	var best: Node = null
-	var best_f: int = INF
-	for node in open_set.keys():
-		var f = int(f_score.get(node, INF))
-		if f < best_f:
-			best_f = f
-			best = node
-	return best
-
-func _reconstruct(came_from: Dictionary, current: Node) -> Array:
-	var path: Array = [current]
-	while came_from.has(current):
-		current = came_from[current]
-		path.push_front(current)
-	return path
-
-func A_star(start_tile: Node, goal_tile: Node, enemy: Enemy) -> Array:
-	var open_set: Dictionary = {start_tile: true}
-	var came_from: Dictionary = {}
-	var g_score: Dictionary = {}
-	g_score[start_tile] = 0
-	var f_score: Dictionary = {}
-	f_score[start_tile] = int(heuristic(start_tile, goal_tile))
-	
-	while open_set.size() > 0:
-		var current: Node = _lowest_f(open_set, f_score)
-		if current == goal_tile:
-			return _reconstruct(came_from, current)
-		
-		open_set.erase(current)
-		
-		for neighbor in current.neighbors:
-			var move_cost = enemy.get_tile_cost(neighbor)
-			if move_cost >= INF:
-				continue
-			
-			var current_g: int = int(g_score.get(current, INF))
-			var tentative_g: int = current_g + move_cost
-			var neighbor_g: int = int(g_score.get(neighbor, INF))
-			
-			if tentative_g < neighbor_g:
-				came_from[neighbor] = current
-				g_score[neighbor] = tentative_g
-				f_score[neighbor] = tentative_g + int(heuristic(neighbor, goal_tile))
-				open_set[neighbor] = true
-				
-	return []
-
-# -----------------------------------------------------
-# THIS IS THE END FOR THE A* ALGORITHM
-# -----------------------------------------------------

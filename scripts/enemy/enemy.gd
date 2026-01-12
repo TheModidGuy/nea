@@ -47,5 +47,5 @@ func randomize_stats():
 
 func get_tile_cost(tile) -> int:
 	if tile.has_building:
-		return INF
+		return 1_000_000_000
 	return tile.cost
