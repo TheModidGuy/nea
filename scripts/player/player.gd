@@ -1,5 +1,6 @@
 extends Node2D
 
+@onready var inventory: Inventory = $Inventory
 
 var currentTile: Node = null
 var energy: int = 50
