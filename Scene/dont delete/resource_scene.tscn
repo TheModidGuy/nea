@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bswcjup0y0hdh"]
 
-[ext_resource type="Script" uid="uid://ds4lru43m8div" path="res://scripts/resource.gd" id="1_c58h8"]
+[ext_resource type="Script" uid="uid://ds4lru43m8div" path="res://scripts/dont delete/resource.gd" id="1_c58h8"]
 [ext_resource type="Texture2D" uid="uid://fh5s4nei1iio" path="res://Assets/Sprites/resources/monkey-thinking.png" id="2_3ir7k"]
 
 [node name="Resource" type="Node2D"]

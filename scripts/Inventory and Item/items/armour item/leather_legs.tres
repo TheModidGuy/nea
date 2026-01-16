@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ArmourItem" load_steps=2 format=3 uid="uid://cu262kn2mufrv"]
+
+[ext_resource type="Script" uid="uid://dm43suuk2h3r4" path="res://scripts/Inventory and Item/items/armour_item.gd" id="1_a61wi"]
+
+[resource]
+script = ExtResource("1_a61wi")
+defence_bonus = 3
+slot = "legs"
+id = "leather_legs"
+display_name = "leather legs"
+description = "defence +3"
+metadata/_custom_type_script = "uid://dm43suuk2h3r4"

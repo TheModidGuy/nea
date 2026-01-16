@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ConsumableItem" load_steps=2 format=3 uid="uid://ka2d0w1l7crx"]
+
+[ext_resource type="Script" uid="uid://dsfh5a5lbgtgh" path="res://scripts/Inventory and Item/items/consumable_item.gd" id="1_63qvc"]
+
+[resource]
+script = ExtResource("1_63qvc")
+mana_amount = 50
+id = "mana_potion"
+display_name = "mana potion"
+max_stack = 20
+description = "restores 50 mana"
+metadata/_custom_type_script = "uid://dsfh5a5lbgtgh"

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ArmourItem" load_steps=2 format=3 uid="uid://dwg4ufnoc3eo5"]
+
+[ext_resource type="Script" uid="uid://dm43suuk2h3r4" path="res://scripts/Inventory and Item/items/armour_item.gd" id="1_sfi3s"]
+
+[resource]
+script = ExtResource("1_sfi3s")
+defence_bonus = 3
+slot = "head"
+id = "leather_helmet"
+display_name = "leather helmet"
+description = "defence +3"
+metadata/_custom_type_script = "uid://dm43suuk2h3r4"

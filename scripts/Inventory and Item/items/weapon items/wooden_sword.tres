@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WeaponItem" load_steps=2 format=3 uid="uid://j3fpd6rnwlwg"]
+
+[ext_resource type="Script" uid="uid://5kedfm7ubg46" path="res://scripts/Inventory and Item/items/weapon_item.gd" id="1_a06gg"]
+
+[resource]
+script = ExtResource("1_a06gg")
+attack_bonus = 3
+id = "wooden_sword"
+display_name = "wooden sword"
+description = "attack +3"
+metadata/_custom_type_script = "uid://5kedfm7ubg46"

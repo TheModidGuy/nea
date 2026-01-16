@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://j58lu732nspq"]
 
 [ext_resource type="Texture2D" uid="uid://fh5s4nei1iio" path="res://Assets/Sprites/resources/monkey-thinking.png" id="1_4e3u1"]
-[ext_resource type="Script" uid="uid://d0o6hscxy30ob" path="res://scripts/building.gd" id="1_nahpv"]
+[ext_resource type="Script" uid="uid://d0o6hscxy30ob" path="res://scripts/map/building.gd" id="1_nahpv"]
 [ext_resource type="Texture2D" uid="uid://cp0uayft70abu" path="res://Assets/Sprites/resources/city.png" id="2_ixuxm"]
 [ext_resource type="Texture2D" uid="uid://k367p7ns8ru2" path="res://Assets/Sprites/resources/shop.png" id="3_fhr5j"]
 [ext_resource type="Texture2D" uid="uid://7ljsoadry80w" path="res://Assets/Sprites/resources/dungeon.png" id="4_ou3y3"]

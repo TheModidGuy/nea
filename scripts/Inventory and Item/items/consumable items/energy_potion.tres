@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ConsumableItem" load_steps=2 format=3 uid="uid://dqd6l514yg5au"]
+
+[ext_resource type="Script" uid="uid://dsfh5a5lbgtgh" path="res://scripts/Inventory and Item/items/consumable_item.gd" id="1_ys2u7"]
+
+[resource]
+script = ExtResource("1_ys2u7")
+energy_amount = 50
+id = "energy_potion"
+display_name = "energy potion"
+max_stack = 20
+description = "restores 50 energy"
+metadata/_custom_type_script = "uid://dsfh5a5lbgtgh"

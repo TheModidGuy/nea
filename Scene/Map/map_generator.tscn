@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://b8vdderf8bppa"]
 
-[ext_resource type="Script" uid="uid://hioh1fahnxi" path="res://scripts/map_generator.gd" id="1_urt8w"]
-[ext_resource type="PackedScene" uid="uid://c5h2up1fankgb" path="res://Scene/tile.tscn" id="2_34yyu"]
+[ext_resource type="Script" uid="uid://hioh1fahnxi" path="res://scripts/map/map_generator.gd" id="1_urt8w"]
+[ext_resource type="PackedScene" uid="uid://c5h2up1fankgb" path="res://Scene/Map/tile.tscn" id="2_34yyu"]
 [ext_resource type="PackedScene" uid="uid://birfwtb1jkcpn" path="res://Scene/AStarScene.tscn" id="2_vyxks"]
-[ext_resource type="PackedScene" uid="uid://7r2dbahwdjbw" path="res://Scene/player_scene.tscn" id="3_i1l0k"]
+[ext_resource type="PackedScene" uid="uid://7r2dbahwdjbw" path="res://Scene/player/player_scene.tscn" id="3_i1l0k"]
 [ext_resource type="PackedScene" uid="uid://droj0kqfp3n4r" path="res://Scene/enemy/enemy_spawner.tscn" id="4_awgdn"]
 [ext_resource type="PackedScene" uid="uid://j58lu732nspq" path="res://Scene/Map/building_scene.tscn" id="5_0sssd"]
 

@@ -5,6 +5,7 @@ var overlay: Node = null
 const INF: int = 1_000_000_000
 const PLAYER_SAFE_RADIUS := 10
 const ENEMY_SAFE_RADIUS := 5
+const ENEMY_AGGRO_RADIUS := 4
 
 var player_instance: Node = null
 
@@ -321,9 +322,8 @@ func enemy_turn():
 	if player_instance == null:
 		return
 	
-	var goal_tile = player_instance.currentTile
-	if goal_tile == null:
-		push_error("Player location lost")
+	var player_tile = player_instance.currentTile
+	if player_tile == null:
 		return
 	
 	for enemy in enemy_spawner.enemies:
@@ -332,13 +332,20 @@ func enemy_turn():
 		if enemy.currentTile == null:
 			continue
 		
-		var start_tile = enemy.currentTile
-		var path = astar.find_path(start_tile, goal_tile, enemy)
+		var enemy_tile = enemy.currentTile
 		
+		# --- AGGRO CHECK ---
+		var dist := tile_distance(enemy_tile, player_tile)
+		if dist > ENEMY_AGGRO_RADIUS:
+			continue  # player too far away → enemy ignores
+		
+		# --- CHASE ---
+		var path = astar.find_path(enemy_tile, player_tile, enemy)
 		if path.size() > 1:
 			var next_tile = path[1]
 			enemy.position = next_tile.position
 			enemy.currentTile = next_tile
+
 
 func tile_distance(a: Node, b: Node) -> int:
 	return abs(a.grid_x - b.grid_x) + abs(a.grid_y - b.grid_y)
