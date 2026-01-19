@@ -7,6 +7,16 @@ var energy: int = 50
 var health: int = 25
 var outOfEnergy: bool = false
 
+var speed: int = 6
+var attack: int = 7
+var defence: int = 6
+var magic_skill: int = 5
+var crit: int = 2
+
+var gold: int = 0
+
+var crit_chance: int = 5
+
 signal moved(new_tile)
 
 func moveToTile(tile) -> bool:

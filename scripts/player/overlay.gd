@@ -11,6 +11,15 @@ var map: Node = null
 @onready var label_position: Label = $TextureRect/Label_Position
 @onready var label_resource: Label = $TextureRect/Label_Resource
 
+# player stats
+@onready var label_health: Label = $TextureRect/Label_Health
+@onready var label_attack: Label = $TextureRect/Label_Attack
+@onready var label_defence: Label = $TextureRect/Label_Defence
+@onready var label_speed: Label = $TextureRect/Label_Speed
+@onready var label_magic: Label = $TextureRect/Label_Magic
+@onready var label_crit: Label = $TextureRect/Label_Crit
+@onready var label_gold: Label = $TextureRect/Label_Gold
+
 @onready var inventory_list: VBoxContainer = $ScrollContainer/VBoxContainer
 var inventory: Inventory = null
 

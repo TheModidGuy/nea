@@ -82,10 +82,73 @@ text = "Building:"
 
 [node name="MoveButton" type="Button" parent="CanvasLayer/camoverlay/TextureRect/Button"]
 offset_left = 1081.0
-offset_top = 647.0
+offset_top = 600.0
 offset_right = 1270.0
 offset_bottom = 710.0
 text = "Move"
+
+[node name="Label_Health" type="Label" parent="CanvasLayer/camoverlay/TextureRect"]
+layout_mode = 0
+offset_left = 1072.0
+offset_top = 332.0
+offset_right = 1273.0
+offset_bottom = 357.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Health:"
+
+[node name="Label_Attack" type="Label" parent="CanvasLayer/camoverlay/TextureRect"]
+layout_mode = 0
+offset_left = 1072.0
+offset_top = 355.0
+offset_right = 1273.0
+offset_bottom = 380.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Attack:"
+
+[node name="Label_Defence" type="Label" parent="CanvasLayer/camoverlay/TextureRect"]
+layout_mode = 0
+offset_left = 1072.0
+offset_top = 377.0
+offset_right = 1273.0
+offset_bottom = 402.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Defence:"
+
+[node name="Label_Speed" type="Label" parent="CanvasLayer/camoverlay/TextureRect"]
+layout_mode = 0
+offset_left = 1072.0
+offset_top = 400.0
+offset_right = 1273.0
+offset_bottom = 425.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Speed:"
+
+[node name="Label_Magic" type="Label" parent="CanvasLayer/camoverlay/TextureRect"]
+layout_mode = 0
+offset_left = 1072.0
+offset_top = 423.0
+offset_right = 1273.0
+offset_bottom = 448.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Magic:"
+
+[node name="Label_Crit" type="Label" parent="CanvasLayer/camoverlay/TextureRect"]
+layout_mode = 0
+offset_left = 1072.0
+offset_top = 446.0
+offset_right = 1273.0
+offset_bottom = 471.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Crit:"
+
+[node name="Label_Gold" type="Label" parent="CanvasLayer/camoverlay/TextureRect"]
+layout_mode = 0
+offset_left = 1072.0
+offset_top = 469.0
+offset_right = 1273.0
+offset_bottom = 494.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Gold:"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/camoverlay"]
 clip_contents = false
@@ -95,11 +158,11 @@ anchors_preset = -1
 anchor_left = 0.83900005
 anchor_top = 0.008
 anchor_right = 0.99500006
-anchor_bottom = 0.286
+anchor_bottom = 0.45700002
 offset_left = -0.045043945
 offset_top = -0.055000305
 offset_right = 0.27490234
-offset_bottom = -0.2150116
+offset_bottom = -0.040008545
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/camoverlay/ScrollContainer"]
 layout_mode = 2
