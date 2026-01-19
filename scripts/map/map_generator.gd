@@ -73,6 +73,7 @@ func _ready():
 	spawn_initial_enemies()
 	
 	
+	
 	player_instance.connect("moved",Callable(self, "enemy_turn"))
 
 func _unhandled_input(event):
@@ -241,17 +242,7 @@ func place_player(x: int = 0, y: int = 0):
 	print("Player spawned at x: {x} y: {y}".format({
 	"x": player_instance.currentTile.grid_x,
 	"y": player_instance.currentTile.grid_y
-	}))
-	
-	if overlay:
-		overlay.bind_inventory(player_instance.inventory)
-	
-	#inventory test
-	var potion: Item = load("res://scripts/Inventory and Item/items/consumable items/medium_health_potion.tres")
-	var sword: Item = load("res://scripts/Inventory and Item/items/weapon items/stone_sword.tres")
-	
-	player_instance.inventory.add_item(potion, 3)
-	player_instance.inventory.add_item(sword, 1)
+}))
 
 func spawn_initial_enemies():
 	var attempts := 0

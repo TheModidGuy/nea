@@ -12,7 +12,8 @@ var slots: Array = []
 
 func _ready():
 	slots.resize(size)
-	slots.fill(null)
+	for i in range(size):
+		slots[i] = null
 
 
 func add_item(item: Item, amount := 1) -> bool:

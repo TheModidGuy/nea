@@ -11,9 +11,6 @@ var map: Node = null
 @onready var label_position: Label = $TextureRect/Label_Position
 @onready var label_resource: Label = $TextureRect/Label_Resource
 
-@onready var inventory_list: VBoxContainer = $ScrollContainer/VBoxContainer
-var inventory: Inventory = null
-
 func _ready():
 	add_to_group("OverlayUI")
 
@@ -41,37 +38,23 @@ func clear_info():
 
 func _on_move_button_pressed() -> void:
 	emit_signal("move_requested")
-
-
-
-func bind_inventory(inv: Inventory):
-	if inventory:
-		inventory.changed.disconnect(refresh)
-
-	inventory = inv
-	inventory.changed.connect(refresh)
-	refresh()
-
-func refresh():
-	# Clear UI
-	for c in inventory_list.get_children():
-		c.queue_free()
-
-	if inventory == null:
-		return
-
-	for i in range(inventory.slots.size()):
-		var slot = inventory.slots[i]
-		if slot == null:
-			continue
-
-		var btn := Button.new()
-		btn.text = "%s x%d" % [
-			slot.item.display_name,
-			slot.amount
-		]
-		btn.pressed.connect(_on_item_pressed.bind(i))
-		inventory_list.add_child(btn)
-
-func _on_item_pressed(index: int):
-	print("Selected inventory slot:", index)
+	#if map == null:
+		#return
+#
+	#var tile_to_move = map.last_highlighted_tile
+	#if tile_to_move == null:
+		#print("No tile selected")
+		#return
+#
+	#var player = map.player_instance
+	#if player == null:
+		#print("Player not found")
+		#return
+	#
+	## Enforce neighbour rule
+	#var current_tile = player.currentTile
+	#if tile_to_move not in current_tile.neighbors:
+		#print("Tile not adjacent")
+		#return
+		#
+	#map.move_player_to(tile_to_move)
