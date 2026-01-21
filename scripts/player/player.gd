@@ -4,7 +4,7 @@ extends Node2D
 
 var currentTile: Node = null
 var energy: int = 50
-var health: int = 25
+var health: int = 100
 var outOfEnergy: bool = false
 
 var speed: int = 6
@@ -44,3 +44,45 @@ func moveToTile(tile) -> bool:
 
 	emit_signal("moved", tile)
 	return true
+
+func use_item_from_inventory(index: int):
+	var slot = inventory.slots[index]
+	if slot == null:
+		return
+
+	var item: Item = slot["item"]
+
+	# --- CONSUMABLE ---
+	if item is ConsumableItem:
+		var c := item as ConsumableItem
+
+		if c.heal_amount > 0:
+			health += c.heal_amount
+
+		if c.energy_amount > 0:
+			energy += c.energy_amount
+
+		health = min(health, 100)
+		energy = min(energy, 50)
+
+		inventory.remove_item(index, 1)
+		return
+
+
+	# --- WEAPON ---
+	if item is WeaponItem:
+		var w := item as WeaponItem
+		attack += w.attack_bonus
+		crit += w.crit_bonus
+
+		inventory.remove_item(index, 1)
+		return
+
+
+	# --- ARMOUR ---
+	if item is ArmourItem:
+		var a := item as ArmourItem
+		defence += a.defence_bonus
+
+		inventory.remove_item(index, 1)
+		return

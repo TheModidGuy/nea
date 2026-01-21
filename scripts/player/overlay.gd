@@ -4,6 +4,9 @@ extends Control
 signal move_requested
 
 var map: Node = null
+var player: Node = null
+
+var selected_index: int = -1
 
 
 @onready var label_tile_type: Label = $TextureRect/Label_TileType
@@ -18,6 +21,7 @@ var map: Node = null
 @onready var label_speed: Label = $TextureRect/Label_Speed
 @onready var label_magic: Label = $TextureRect/Label_Magic
 @onready var label_crit: Label = $TextureRect/Label_Crit
+@onready var label_energy: Label = $TextureRect/Label_Energy
 @onready var label_gold: Label = $TextureRect/Label_Gold
 
 @onready var inventory_list: VBoxContainer = $ScrollContainer/VBoxContainer
@@ -25,6 +29,23 @@ var inventory: Inventory = null
 
 func _ready():
 	add_to_group("OverlayUI")
+
+func _process(_delta):
+	update_player_stats()
+
+
+func update_player_stats():
+	if player == null:
+		return
+
+	label_health.text = "Health: %d" % player.health
+	label_attack.text = "Attack: %d" % player.attack
+	label_defence.text = "Defence: %d" % player.defence
+	label_speed.text = "Speed: %d" % player.speed
+	label_magic.text = "Magic: %d" % player.magic_skill
+	label_crit.text = "Crit: %d" % player.crit
+	label_energy.text = "Energy: %d" % player.energy
+	label_gold.text = "Gold: %d" % player.gold
 
 
 func update_tile_info(tile):
@@ -51,6 +72,21 @@ func clear_info():
 func _on_move_button_pressed() -> void:
 	emit_signal("move_requested")
 
+
+func _on_use_button_pressed():
+	if selected_index == -1 or inventory == null or player == null:
+		return
+
+	player.use_item_from_inventory(selected_index)
+	selected_index = -1
+
+
+func _on_drop_button_pressed():
+	if selected_index == -1 or inventory == null:
+		return
+
+	inventory.remove_item(selected_index, 1)
+	selected_index = -1
 
 
 func bind_inventory(inv: Inventory):
@@ -83,4 +119,5 @@ func refresh():
 		inventory_list.add_child(btn)
 
 func _on_item_pressed(index: int):
+	selected_index = index
 	print("Selected inventory slot:", index)

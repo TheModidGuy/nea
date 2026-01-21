@@ -244,6 +244,7 @@ func place_player(x: int = 0, y: int = 0):
 	}))
 	
 	if overlay:
+		overlay.player = player_instance
 		overlay.bind_inventory(player_instance.inventory)
 	
 	#inventory test
