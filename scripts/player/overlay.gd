@@ -27,6 +27,15 @@ var selected_index: int = -1
 @onready var inventory_list: VBoxContainer = $ScrollContainer/VBoxContainer
 var inventory: Inventory = null
 
+#shop stuff
+@onready var shop_panel: Panel = $TextureRect/ShopPanel
+@onready var shop_list: VBoxContainer = $TextureRect/ShopPanel/ShopList
+@onready var purchase_button: Button = $TextureRect/ShopPanel/PurchaseButton
+
+var shop_stock := []
+var selected_shop_index := -1
+
+
 func _ready():
 	add_to_group("OverlayUI")
 
@@ -55,7 +64,7 @@ func update_tile_info(tile):
 	label_tile_type.text = "Terrain: %s" % tile.terrainType.capitalize()
 	label_movement_cost.text = "Cost to Move: %d" % tile.cost
 	label_position.text = "Grid Position: (%d, %d)" % [tile.grid_x, tile.grid_y]
-	
+
 	if tile.has_building:
 		label_resource.text = "Building: %s" % tile.building_on_tile.capitalize()
 	else:
@@ -121,3 +130,77 @@ func refresh():
 func _on_item_pressed(index: int):
 	selected_index = index
 	print("Selected inventory slot:", index)
+
+func show_shop(stock):
+	shop_stock = stock
+	selected_shop_index = -1
+
+	shop_panel.visible = true
+	purchase_button.disabled = true
+
+	_refresh_shop_ui()
+
+func _refresh_shop_ui():
+	# Clear previous buttons
+	for c in shop_list.get_children():
+		c.queue_free()
+
+	for i in range(shop_stock.size()):
+		var entry = shop_stock[i]
+		var text = entry.item.display_name
+
+		# Show quantity for consumables
+		if entry.item is ConsumableItem:
+			text += " x%d" % entry.amount
+
+		# Show price per unit
+		text += " — %d gold each" % entry.price
+
+		var btn := Button.new()
+		btn.text = text
+		btn.pressed.connect(_on_shop_item_selected.bind(i))
+		shop_list.add_child(btn)
+
+
+func _on_shop_item_selected(index: int):
+	selected_shop_index = index
+	purchase_button.disabled = false
+
+func _on_PurchaseButton_pressed():
+	if selected_shop_index == -1:
+		return
+
+	var entry = shop_stock[selected_shop_index]
+
+	# Check if player has enough gold
+	if player.gold < entry.price:
+		print("Not enough gold")
+		return
+
+	# Buy 1 unit
+	player.gold -= entry.price
+	player.inventory.add_item(entry.item, 1)
+	entry.amount -= 1
+
+	# Remove item if out of stock
+	if entry.amount <= 0:
+		shop_stock.remove_at(selected_shop_index)
+		selected_shop_index = -1
+		purchase_button.disabled = true
+
+	# Refresh the UI
+	_refresh_shop_ui()
+
+	# Hide shop if empty
+	if shop_stock.is_empty():
+		shop_panel.visible = false
+
+
+func _on_player_moved(tile):
+	# Player stepped onto a shop
+	if tile.has_building and tile.building_on_tile == "shop":
+		return  # shop will already be opened by building signal
+
+	# Player left shop
+	shop_panel.visible = false
+	selected_shop_index = -1

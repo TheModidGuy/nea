@@ -13,7 +13,7 @@ var defence: int = 6
 var magic_skill: int = 5
 var crit: int = 2
 
-var gold: int = 0
+var gold: int = 100
 
 var crit_chance: int = 5
 

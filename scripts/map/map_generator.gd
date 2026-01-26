@@ -125,7 +125,7 @@ func spawn_building(tile, forced_type := ""):
 		building.building_type = building.pick_building_type()
 	
 	if overlay and building.building_type == "shop":
-		building.shop_entered.connect(overlay.open_shop)
+		building.shop_entered.connect(overlay.show_shop)
 
 	building.name = "Building"
 	building.currentTile = tile
@@ -250,6 +250,7 @@ func place_player(x: int = 0, y: int = 0):
 	if overlay:
 		overlay.player = player_instance
 		overlay.bind_inventory(player_instance.inventory)
+		player_instance.moved.connect(overlay._on_player_moved)
 	
 	#inventory test
 	var potion: Item = load("res://scripts/Inventory and Item/items/consumable items/medium_health_potion.tres")

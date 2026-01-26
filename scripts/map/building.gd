@@ -10,8 +10,11 @@ extends Node2D
 @export var city_reward_items: Array[Item]
 
 #shop stuff
-signal shop_entered(items)
+signal shop_entered(stock)
 @export var shop_items: Array[Item]
+
+var shop_stock := []
+
 
 var building_type: String = ""
 var currentTile
@@ -62,10 +65,12 @@ func pick_building_type() -> String:
 var visited := false
 
 func interact(player):
-	if visited:
+	if building_type == "city" and visited:
 		return
 
-	visited = true
+	if building_type == "city":
+		visited = true
+
 
 	match building_type:
 		"city":
@@ -88,24 +93,48 @@ func enter_city(player):
 	player.inventory.add_item(item, 1)
 	print("Received item from city:", item.display_name)
 
+func get_item_price(item: Item) -> int:
+	if item is ConsumableItem:
+		match item.id:
+			"small_health_potion":
+				return 2
+			"medium_health_potion":
+				return 5
+			"large_health_potion":
+				return 10
+			"energy_potion":
+				return 5
+			"mana_potion":
+				return 5
+			_:
+				return 5  # default price for any other consumable
+	elif item is WeaponItem:
+		return 25
+	elif item is ArmourItem:
+		return 15
+	return 10
+
+
+
 func enter_shop(player):
 	var stock := []
-
+	
 	for i in range(3):
 		var item: Item = shop_items.pick_random()
 		var amount := 1
-
+	
+		# Consumables have a stock of 20
 		if item is ConsumableItem:
 			amount = 20
-
+	
 		stock.append({
 			"item": item,
-			"amount": amount
+			"amount": amount,
+			"price": get_item_price(item)  # per-unit price
 		})
-
+	
+	# Emit signal to overlay to show shop
 	emit_signal("shop_entered", stock)
-
-
 
 
 func enter_dungeon(player):
