@@ -36,12 +36,21 @@ func moveToTile(tile) -> bool:
 			health -= 1
 		print("Health: ", health)
 		
+	# movement
 	position = tile.position
 	currentTile = tile
+	
 	if !outOfEnergy:
 		energy -= cost
+		
 	print("Moved to: ", tile.terrainType, "Energy left: ", energy)
-
+	
+	#building stuff
+	if tile.has_building:
+		var building = tile.get_node_or_null("Building")
+		if building:
+			building.interact(self)
+	
 	emit_signal("moved", tile)
 	return true
 

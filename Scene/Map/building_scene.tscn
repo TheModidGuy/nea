@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://j58lu732nspq"]
+[gd_scene load_steps=26 format=3 uid="uid://j58lu732nspq"]
 
 [ext_resource type="Texture2D" uid="uid://fh5s4nei1iio" path="res://Assets/Sprites/resources/monkey-thinking.png" id="1_4e3u1"]
 [ext_resource type="Script" uid="uid://d0o6hscxy30ob" path="res://scripts/map/building.gd" id="1_nahpv"]
@@ -7,6 +7,24 @@
 [ext_resource type="Texture2D" uid="uid://7ljsoadry80w" path="res://Assets/Sprites/resources/dungeon.png" id="4_ou3y3"]
 [ext_resource type="Texture2D" uid="uid://dvj8wkr8swhhi" path="res://Assets/Sprites/resources/tower.png" id="5_ydlrc"]
 [ext_resource type="Texture2D" uid="uid://blye77d23u37j" path="res://Assets/Sprites/resources/castle.png" id="6_xyldh"]
+[ext_resource type="Script" uid="uid://cunjui3w6u62m" path="res://scripts/Inventory and Item/items/item.gd" id="7_rvlvf"]
+[ext_resource type="Resource" uid="uid://du8vmnuycjd57" path="res://scripts/Inventory and Item/items/armour item/gold_chestplate.tres" id="8_go2kj"]
+[ext_resource type="Resource" uid="uid://c20q2f0jnunh5" path="res://scripts/Inventory and Item/items/armour item/gold_helmet.tres" id="9_ijxdf"]
+[ext_resource type="Resource" uid="uid://drrxvkyjkywyn" path="res://scripts/Inventory and Item/items/armour item/gold_legs.tres" id="10_t85br"]
+[ext_resource type="Resource" uid="uid://cyx42vg41y4mx" path="res://scripts/Inventory and Item/items/armour item/iron_chestplate.tres" id="11_05spt"]
+[ext_resource type="Resource" uid="uid://bhl0i6toyaxxs" path="res://scripts/Inventory and Item/items/armour item/iron_helmet.tres" id="12_1ap72"]
+[ext_resource type="Resource" uid="uid://cu1ohh7fcav2" path="res://scripts/Inventory and Item/items/armour item/iron_legs.tres" id="13_s1im5"]
+[ext_resource type="Resource" uid="uid://bx8xqwgn2rqoh" path="res://scripts/Inventory and Item/items/armour item/leather_chestplate.tres" id="14_1v500"]
+[ext_resource type="Resource" uid="uid://dwg4ufnoc3eo5" path="res://scripts/Inventory and Item/items/armour item/leather_helmet.tres" id="15_ybsdi"]
+[ext_resource type="Resource" uid="uid://cu262kn2mufrv" path="res://scripts/Inventory and Item/items/armour item/leather_legs.tres" id="16_mhirs"]
+[ext_resource type="Resource" uid="uid://dqd6l514yg5au" path="res://scripts/Inventory and Item/items/consumable items/energy_potion.tres" id="17_sj4f1"]
+[ext_resource type="Resource" uid="uid://e3ci74rvhrxh" path="res://scripts/Inventory and Item/items/consumable items/large_health_potion.tres" id="18_hyaii"]
+[ext_resource type="Resource" uid="uid://ka2d0w1l7crx" path="res://scripts/Inventory and Item/items/consumable items/mana_potion.tres" id="19_pfo0e"]
+[ext_resource type="Resource" uid="uid://bgq06qyrdr7e7" path="res://scripts/Inventory and Item/items/consumable items/medium_health_potion.tres" id="20_5fbs1"]
+[ext_resource type="Resource" uid="uid://sq3nnb0hpq7h" path="res://scripts/Inventory and Item/items/consumable items/small_health_potion.tres" id="21_xvkuy"]
+[ext_resource type="Resource" uid="uid://cilboo0nfpup2" path="res://scripts/Inventory and Item/items/weapon items/gold_sword.tres" id="22_vjbh7"]
+[ext_resource type="Resource" uid="uid://2f7yrqarnddb" path="res://scripts/Inventory and Item/items/weapon items/stone_sword.tres" id="23_j5j54"]
+[ext_resource type="Resource" uid="uid://j3fpd6rnwlwg" path="res://scripts/Inventory and Item/items/weapon items/wooden_sword.tres" id="24_shvdc"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_nahpv")
@@ -15,6 +33,8 @@ shop_sprite = ExtResource("3_fhr5j")
 dungeon_sprite = ExtResource("4_ou3y3")
 tower_sprite = ExtResource("5_ydlrc")
 castle_sprite = ExtResource("6_xyldh")
+city_reward_items = Array[ExtResource("7_rvlvf")]([ExtResource("8_go2kj"), ExtResource("9_ijxdf"), ExtResource("10_t85br"), ExtResource("11_05spt"), ExtResource("12_1ap72"), ExtResource("13_s1im5"), ExtResource("14_1v500"), ExtResource("15_ybsdi"), ExtResource("16_mhirs"), ExtResource("17_sj4f1"), ExtResource("18_hyaii"), ExtResource("19_pfo0e"), ExtResource("20_5fbs1"), ExtResource("21_xvkuy"), ExtResource("22_vjbh7"), ExtResource("23_j5j54"), ExtResource("24_shvdc")])
+shop_items = Array[ExtResource("7_rvlvf")]([ExtResource("8_go2kj"), ExtResource("9_ijxdf"), ExtResource("10_t85br"), ExtResource("11_05spt"), ExtResource("12_1ap72"), ExtResource("13_s1im5"), ExtResource("14_1v500"), ExtResource("15_ybsdi"), ExtResource("16_mhirs"), ExtResource("17_sj4f1"), ExtResource("18_hyaii"), ExtResource("19_pfo0e"), ExtResource("20_5fbs1"), ExtResource("21_xvkuy"), ExtResource("22_vjbh7"), ExtResource("23_j5j54"), ExtResource("24_shvdc")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

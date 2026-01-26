@@ -118,21 +118,25 @@ func get_random_free_tile():
 
 func spawn_building(tile, forced_type := ""):
 	var building = building_scene.instantiate()
-	building.position = tile.position
-	building.currentTile = tile
 
 	if forced_type != "":
 		building.building_type = forced_type
 	else:
 		building.building_type = building.pick_building_type()
+	
+	if overlay and building.building_type == "shop":
+		building.shop_entered.connect(overlay.open_shop)
+
+	building.name = "Building"
+	building.currentTile = tile
 
 	tile.has_building = true
 	tile.building_on_tile = building.building_type
 
-	add_child(building)
+	tile.add_child(building)
+	building.position = Vector2.ZERO
+
 	occupied_tiles.append(tile)
-
-
 
 
 func spawn_buildings():

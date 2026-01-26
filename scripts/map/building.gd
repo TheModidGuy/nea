@@ -6,6 +6,13 @@ extends Node2D
 @export var tower_sprite: Texture2D
 @export var castle_sprite: Texture2D
 
+#city stuff
+@export var city_reward_items: Array[Item]
+
+#shop stuff
+signal shop_entered(items)
+@export var shop_items: Array[Item]
+
 var building_type: String = ""
 var currentTile
 
@@ -51,3 +58,61 @@ func pick_building_type() -> String:
 
 
 	return "city"
+
+var visited := false
+
+func interact(player):
+	if visited:
+		return
+
+	visited = true
+
+	match building_type:
+		"city":
+			enter_city(player)
+		"shop":
+			enter_shop(player)
+		"dungeon":
+			enter_dungeon(player)
+		"tower":
+			enter_tower(player)
+		"castle":
+			enter_castle(player)
+
+func enter_city(player):
+	if city_reward_items.is_empty():
+		print("City has no reward items")
+		return
+	
+	var item: Item = city_reward_items.pick_random()
+	player.inventory.add_item(item, 1)
+	print("Received item from city:", item.display_name)
+
+func enter_shop(player):
+	var stock := []
+
+	for i in range(3):
+		var item: Item = shop_items.pick_random()
+		var amount := 1
+
+		if item is ConsumableItem:
+			amount = 20
+
+		stock.append({
+			"item": item,
+			"amount": amount
+		})
+
+	emit_signal("shop_entered", stock)
+
+
+
+
+func enter_dungeon(player):
+	print("Entered dungeon (battle later)")
+
+func enter_tower(player):
+	print("Entered tower (logic later)")
+
+func enter_castle(player):
+	print("Entered castle (logic later)")
