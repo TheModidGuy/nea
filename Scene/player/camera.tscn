@@ -32,21 +32,22 @@ expand_mode = 1
 visible = false
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.58100003
+anchor_left = 0.54800004
 anchor_top = 0.31800002
 anchor_right = 0.81900007
 anchor_bottom = 0.675
-offset_left = 0.3199463
+offset_left = -0.44006348
 offset_top = 0.039993286
 offset_right = -0.32006836
 
 [node name="PurchaseButton" type="Button" parent="CanvasLayer/camoverlay/TextureRect/ShopPanel"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.040000003
+anchor_left = 0.13800001
 anchor_top = 1.074
 anchor_right = 1.0840001
 anchor_bottom = 1.8780001
+offset_left = 0.11399078
 offset_top = -0.018005371
 offset_right = -0.0079956055
 offset_bottom = -0.102996826

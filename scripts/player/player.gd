@@ -17,6 +17,11 @@ var gold: int = 100
 
 var crit_chance: int = 5
 
+#battle stuff
+var battle_locked: bool = false
+var current_enemy: Enemy = null
+
+
 signal moved(new_tile)
 
 func moveToTile(tile) -> bool:

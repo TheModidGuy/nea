@@ -52,3 +52,11 @@ func apply_terrain(t_type: String) -> void:
 		#print("Applied terrain:", t_type, " cost:", cost)
 	else:
 		push_error("Unknown terrain type: %s" % t_type)
+
+
+func get_enemies_on_tile() -> Array:
+	var enemies := []
+	for child in get_children():
+		if child is Enemy:
+			enemies.append(child)
+	return enemies

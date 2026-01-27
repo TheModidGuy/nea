@@ -49,3 +49,21 @@ func get_tile_cost(tile) -> int:
 	if tile.has_building:
 		return 1_000_000_000
 	return tile.cost
+
+func try_start_battle(player):
+	if player.in_battle or player.battle_locked:
+		return
+	if player.currentTile != currentTile:
+		return
+
+	var enemies = currentTile.get_enemies_on_tile()
+	if enemies.is_empty():
+		return
+
+	var chosen_enemy = enemies.pick_random()
+
+	player.battle_locked = true
+	player.in_battle = true
+	player.current_enemy = chosen_enemy
+
+	get_tree().get_root().get_node("Overlay").enter_battle()
