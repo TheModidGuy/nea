@@ -1,10 +1,13 @@
 extends Node2D
 
+signal battle_started(player)
+
 @onready var inventory: Inventory = $Inventory
 
 var currentTile: Node = null
 var energy: int = 50
 var health: int = 100
+var max_health: int = 100
 var outOfEnergy: bool = false
 
 var speed: int = 6
@@ -20,6 +23,7 @@ var crit_chance: int = 5
 #battle stuff
 var battle_locked: bool = false
 var current_enemy: Enemy = null
+var in_battle: bool = false
 
 
 signal moved(new_tile)
@@ -30,7 +34,10 @@ func moveToTile(tile) -> bool:
 	if tile not in currentTile.neighbors:
 		print("Tile not adjacent")
 		return false
-		
+	if in_battle or battle_locked:
+		print("Canot move: in battle")
+		return false
+	
 	var cost = tile.cost
 	
 	if energy < cost or energy - cost < 0:
@@ -56,7 +63,18 @@ func moveToTile(tile) -> bool:
 		if building:
 			building.interact(self)
 	
+	# battle stuff
+	var enemies_here = tile.get_enemies_on_tile()
+	if enemies_here.size() > 0:
+		for enemy in enemies_here:
+			enemy.try_start_battle(self)
+			break  # only start with the first enemy
+	
 	emit_signal("moved", tile)
+	
+	print("Player moved to:", tile.grid_x, tile.grid_y, "Enemies here:", enemies_here.size())
+	print("Battle locked:", battle_locked, "In battle:", in_battle)
+	
 	return true
 
 func use_item_from_inventory(index: int):

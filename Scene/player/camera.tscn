@@ -210,6 +210,67 @@ offset_bottom = 486.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Energy:"
 
+[node name="BattlePanel" type="Panel" parent="CanvasLayer/camoverlay/TextureRect"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.272
+anchor_top = 0.707
+anchor_right = 0.56700003
+anchor_bottom = 0.99200004
+offset_left = -0.16003418
+offset_top = -0.040008545
+offset_right = 0.23999023
+offset_bottom = -0.24005127
+
+[node name="PlayerHealthLabel" type="Label" parent="CanvasLayer/camoverlay/TextureRect/BattlePanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.040000003
+anchor_top = 0.039
+anchor_right = 0.42100003
+anchor_bottom = 0.15100001
+offset_left = -0.12000084
+offset_top = 0.0049996376
+offset_right = -0.13801575
+offset_bottom = 0.04499817
+
+[node name="EnemyHealthLabel" type="Label" parent="CanvasLayer/camoverlay/TextureRect/BattlePanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.59300005
+anchor_top = 0.039
+anchor_right = 0.97400004
+anchor_bottom = 0.15100001
+offset_left = -0.15402222
+offset_top = 0.0049996376
+offset_right = -0.17202759
+offset_bottom = 0.04499817
+
+[node name="PlayerSprite" type="TextureRect" parent="CanvasLayer/camoverlay/TextureRect/BattlePanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.040000003
+anchor_top = 0.18
+anchor_right = 0.43400002
+anchor_bottom = 0.94600004
+offset_left = -0.12000084
+offset_top = 0.099998474
+offset_right = -0.052001953
+offset_bottom = 0.069992065
+
+[node name="EnemySprite" type="TextureRect" parent="CanvasLayer/camoverlay/TextureRect/BattlePanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.577
+anchor_top = 0.18
+anchor_right = 0.9710001
+anchor_bottom = 0.94600004
+offset_left = -0.10600281
+offset_top = 0.099998474
+offset_right = -0.038024902
+offset_bottom = 0.069992065
+
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/camoverlay"]
 clip_contents = false
 custom_minimum_size = Vector2(200, 200)

@@ -40,3 +40,12 @@ func _pick_enemy() -> PackedScene:
 				"dragon": return dragon_scene
 	
 	return wolf_scene
+
+func get_enemies_on_tile(tile):
+	var result := []
+	for enemy in enemies:
+		if not is_instance_valid(enemy):
+			continue
+		if enemy.currentTile == tile:
+			result.append(enemy)
+	return result

@@ -2,6 +2,7 @@ extends Enemy
 class_name Bandit
 
 func _ready():
+	#Stats for bandit
 	health_min= 25
 	health_max = 75
 
@@ -25,6 +26,7 @@ func _ready():
 	
 	super._ready()
 
+#bandit specific movement calculation
 func get_tile_cost(tile: Node) -> int:
 	if tile.terrainType == "snow":
 		return 10

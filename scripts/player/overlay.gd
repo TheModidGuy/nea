@@ -32,6 +32,13 @@ var inventory: Inventory = null
 @onready var shop_list: VBoxContainer = $TextureRect/ShopPanel/ShopList
 @onready var purchase_button: Button = $TextureRect/ShopPanel/PurchaseButton
 
+#battle stuff
+@onready var battle_panel = $TextureRect/BattlePanel
+@onready var player_hp_label = $TextureRect/BattlePanel/PlayerHealthLabel
+@onready var enemy_hp_label = $TextureRect/BattlePanel/EnemyHealthLabel
+@onready var player_sprite = $TextureRect/BattlePanel/PlayerSprite
+@onready var enemy_sprite = $TextureRect/BattlePanel/EnemySprite
+
 var shop_stock := []
 var selected_shop_index := -1
 
@@ -204,3 +211,30 @@ func _on_player_moved(tile):
 	# Player left shop
 	shop_panel.visible = false
 	selected_shop_index = -1
+
+func bind_player(p):
+	player = p
+	player.battle_started.connect(enter_battle)
+
+func enter_battle(player):
+	player.in_battle = true
+	shop_panel.visible = false
+	battle_panel.visible = true
+
+	# Player UI
+	player_hp_label.text = "HP: %d / %d" % [player.health, player.max_health]
+	if player.has_node("Sprite2D"):
+		player_sprite.texture = player.get_node("Sprite2D").texture
+
+	# Enemy UI
+	var enemy = player.current_enemy
+	if enemy:
+		enemy_hp_label.text = "HP: %d / %d" % [enemy.health, enemy.max_health]
+		if enemy.has_node("Sprite2D"):
+			enemy_sprite.texture = enemy.get_node("Sprite2D").texture
+
+func exit_battle(player):
+	battle_panel.visible = false
+	player.current_enemy = null
+	player.in_battle = false
+	player.battle_locked = false

@@ -238,6 +238,7 @@ func place_player(x: int = 0, y: int = 0):
 	player_instance = player.instantiate()
 	add_child(player_instance)
 	
+	player_instance.currentTile = tile
 	player_instance.position = tile.position
 	player_instance.z_index = 10
 	
@@ -248,6 +249,7 @@ func place_player(x: int = 0, y: int = 0):
 	}))
 	
 	if overlay:
+		overlay.bind_player(player_instance)
 		overlay.player = player_instance
 		overlay.bind_inventory(player_instance.inventory)
 		player_instance.moved.connect(overlay._on_player_moved)
@@ -347,19 +349,22 @@ func enemy_turn():
 		if enemy.currentTile == null:
 			continue
 		
-		var enemy_tile = enemy.currentTile
-		
-		# --- AGGRO CHECK ---
-		var dist := tile_distance(enemy_tile, player_tile)
+		# Skip enemies outside aggro range
+		var dist := tile_distance(enemy.currentTile, player_instance.currentTile)
 		if dist > ENEMY_AGGRO_RADIUS:
-			continue  # player too far away → enemy ignores
+			continue
 		
-		# --- CHASE ---
-		var path = astar.find_path(enemy_tile, player_tile, enemy)
+		# Move towards player
+		var path = astar.find_path(enemy.currentTile, player_instance.currentTile, enemy)
 		if path.size() > 1:
 			var next_tile = path[1]
 			enemy.position = next_tile.position
 			enemy.currentTile = next_tile
+		
+		# Trigger battle if enemy ends up on the same tile as player
+		if enemy.currentTile == player_instance.currentTile:
+			enemy.try_start_battle(player_instance)
+
 
 
 func tile_distance(a: Node, b: Node) -> int:

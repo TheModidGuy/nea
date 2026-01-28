@@ -4,7 +4,8 @@ class_name Enemy
 var currentTile: Node = null
 
 # stats :P
-var health: int 
+var health: int
+var max_health: int
 var speed: int
 var attack: int
 var defence: int
@@ -37,7 +38,9 @@ func _ready():
 	randomize_stats()
 
 func randomize_stats():
-	health = randi_range(health_min, health_max)
+	max_health = randi_range(health_min, health_max)
+	health = max_health
+
 	speed = randi_range(speed_min, speed_max)
 	attack = randi_range(attack_min, attack_max)
 	defence = randi_range(defence_min, defence_max)
@@ -56,14 +59,14 @@ func try_start_battle(player):
 	if player.currentTile != currentTile:
 		return
 
-	var enemies = currentTile.get_enemies_on_tile()
+	# Use enemy spawner to find enemies on the tile
+	var enemies = get_parent().enemy_spawner.get_enemies_on_tile(currentTile)
 	if enemies.is_empty():
 		return
 
-	var chosen_enemy = enemies.pick_random()
+	var chosen_enemy = enemies[randi() % enemies.size()]
 
 	player.battle_locked = true
 	player.in_battle = true
 	player.current_enemy = chosen_enemy
-
-	get_tree().get_root().get_node("Overlay").enter_battle()
+	player.battle_started.emit(player)
