@@ -16,6 +16,7 @@ const ENEMIES = [
 func setup(map_ref):
 	map = map_ref
 
+#spawns an enemy on a tile
 func spawn_enemy_on_tile(tile):
 	var enemy = _pick_enemy().instantiate()
 	enemy.position = tile.position
@@ -23,6 +24,7 @@ func spawn_enemy_on_tile(tile):
 	map.add_child(enemy)
 	enemies.append(enemy)
 
+# randomly choses an enemy
 func _pick_enemy() -> PackedScene:
 	var total := 0
 	for e in ENEMIES:
@@ -41,6 +43,7 @@ func _pick_enemy() -> PackedScene:
 	
 	return wolf_scene
 
+# returns any enemty on tile
 func get_enemies_on_tile(tile):
 	var result := []
 	for enemy in enemies:

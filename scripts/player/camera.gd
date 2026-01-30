@@ -11,7 +11,6 @@ extends Camera2D
 var currentSpeed = 0.0
 
 func _process(delta: float) -> void:
-	# spriting check
 	var targetSpeed = moveSpeed
 	if Input.is_action_pressed("sprint"):
 		targetSpeed *= moveMultiplier
@@ -41,7 +40,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			zoom -= Vector2(zoomSpeed, zoomSpeed)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			zoom += Vector2(zoomSpeed, zoomSpeed)
-
-		# Clamp zoom
+		
 		zoom.x = clamp(zoom.x, zoomMin, zoomMax)
 		zoom.y = clamp(zoom.y, zoomMin, zoomMax)

@@ -24,6 +24,7 @@ var currentTile
 func _ready():
 	apply_sprite()
 
+# function to apply sprite onto a specific building
 func apply_sprite():
 	match building_type:
 		"city":
@@ -37,7 +38,7 @@ func apply_sprite():
 		"castle":
 			sprite.texture = castle_sprite
 
-# Optional: still keep the weighted random picker
+# buildings randomly picked via weights
 const BUILDINGS = [
 	{ "type": "city",    "weight": 30 },
 	{ "type": "shop",    "weight": 15 },
@@ -46,32 +47,33 @@ const BUILDINGS = [
 	{ "type": "castle",  "weight": 5 }
 ]
 
+# randomly  chooses a building
 func pick_building_type() -> String:
 	var total := 0
 	for b in BUILDINGS:
 		total += b.weight
-
+	
 	var roll := randi() % total
 	var current := 0
-
+	
 	for b in BUILDINGS:
 		current += b.weight
 		if roll < current:
 			return b.type
-
-
+	
+	
 	return "city"
 
+# marks cities so they don't spawn more than one item + stores calls functions for when interact with building
 var visited := false
-
 func interact(player):
 	if building_type == "city" and visited:
 		return
-
+	
 	if building_type == "city":
 		visited = true
-
-
+	
+	# calls logic for what happens when interact with building
 	match building_type:
 		"city":
 			enter_city(player)

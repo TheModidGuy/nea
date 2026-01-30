@@ -35,9 +35,10 @@ var crit_chance_min: int = 0
 var crit_chance_max: int = 100
 
 func _ready():
-	randomize_stats()
+	randomise_stats()
 
-func randomize_stats():
+#randomises stats 
+func randomise_stats():
 	max_health = randi_range(health_min, health_max)
 	health = max_health
 
@@ -48,9 +49,10 @@ func randomize_stats():
 	crit = randi_range(crit_min, crit_max)
 	crit_chance = randi_range(crit_chance_min, crit_chance_max)
 
+# returns normal tile cost unless theres a building on tile then return big num
 func get_tile_cost(tile) -> int:
 	if tile.has_building:
-		return 1_000_000_000
+		return 1000000000
 	return tile.cost
 
 func try_start_battle(player):
@@ -58,14 +60,14 @@ func try_start_battle(player):
 		return
 	if player.currentTile != currentTile:
 		return
-
+	
 	# Use enemy spawner to find enemies on the tile
 	var enemies = get_parent().enemy_spawner.get_enemies_on_tile(currentTile)
 	if enemies.is_empty():
 		return
-
+	
 	var chosen_enemy = enemies[randi() % enemies.size()]
-
+	
 	player.battle_locked = true
 	player.current_enemy = chosen_enemy
 	player.battle_started.emit(player)

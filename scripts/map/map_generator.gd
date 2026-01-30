@@ -2,7 +2,7 @@ extends Node2D
 
 var overlay: Node = null
 
-const INF: int = 1_000_000_000
+const INF: int = 1000000000
 const PLAYER_SAFE_RADIUS := 10
 const ENEMY_SAFE_RADIUS := 5
 const ENEMY_AGGRO_RADIUS := 4

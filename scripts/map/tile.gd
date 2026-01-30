@@ -11,7 +11,7 @@ var grid_y: int = 0
 var building_on_tile: String = ""
 var has_building := false
 
-# Terrain presets (sprite + cost)
+# Terrain presets sprites + cost
 var TERRAIN_PRESETS = {
 	"grass": {"spritePath": "res://Assets/Sprites/Tiles/grass.png", "cost": 2},
 	"water": {"spritePath": "res://Assets/Sprites/Tiles/water.png", "cost": 5},
@@ -22,30 +22,27 @@ var TERRAIN_PRESETS = {
 # Exported terrain type with setter
 @export var terrainType: String = "grass" : set = set_terrain
 
-# Track last applied terrain to prevent double application
+# Track last applied terrain due to issue I had with double application of terrain
 var _last_applied: String = ""
 
 func _ready():
-	# Only apply terrain at runtime
 	if not Engine.is_editor_hint():
 		apply_terrain(terrainType)
 
-# Editor-safe setter
+# setter for terrain
 func set_terrain(value: String) -> void:
 	if value == _last_applied:
-		return # Prevent duplicate application
+		return
 	terrainType = value
 	apply_terrain(value)
 
 func apply_terrain(t_type: String) -> void:
 	if TERRAIN_PRESETS.has(t_type):
 		var preset = TERRAIN_PRESETS[t_type]
-
-		# Apply sprite if node exists
+		
 		if sprite_2d != null:
 			sprite_2d.texture = load(preset["spritePath"])
-
-		# Apply other terrain variables
+			
 		cost = preset.get("cost", 0)
 
 		_last_applied = t_type

@@ -2,6 +2,7 @@ extends Enemy
 class_name Wolf
 
 func _ready():
+	#stats for wolf
 	health_min= 10
 	health_max = 50
 
@@ -25,6 +26,7 @@ func _ready():
 	
 	super._ready()
 
+#tile cost specific for wolf
 func get_tile_cost(tile: Node) -> int:
 	if tile.terrainType == "grass" || tile.terrainType == "snow":
 		return 1

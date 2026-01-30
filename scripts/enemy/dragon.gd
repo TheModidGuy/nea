@@ -2,6 +2,7 @@ extends Enemy
 class_name Dragon
 
 func _ready():
+	#stats for dragon
 	health_min= 30
 	health_max = 60
 
@@ -25,6 +26,7 @@ func _ready():
 	
 	super._ready()
 
+#dragon specific movement calculation
 func get_tile_cost(tile: Node) -> int:
 	if tile.terrainType == "moutain":
 		return 1000000

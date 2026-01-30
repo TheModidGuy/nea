@@ -5,8 +5,6 @@ signal changed
 
 @export var size: int = 50
 
-# Each slot is either null or:
-# { "item": Item, "amount": int }
 var slots: Array = []
 
 
@@ -16,7 +14,6 @@ func _ready():
 
 
 func add_item(item: Item, amount := 1) -> bool:
-	# Try stacking first
 	for i in range(size):
 		var slot = slots[i]
 		if slot and slot.item == item and slot.amount < item.max_stack:
@@ -27,7 +24,6 @@ func add_item(item: Item, amount := 1) -> bool:
 				changed.emit()
 				return true
 	
-	# Then empty slots
 	for i in range(size):
 		if slots[i] == null:
 			var to_add = min(amount, item.max_stack)
