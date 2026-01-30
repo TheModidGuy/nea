@@ -6,8 +6,9 @@ signal move_requested
 var map: Node = null
 var player: Node = null
 
-var selected_index: int = -1
+var inventory_interaction_enabled := true
 
+var selected_index: int = -1
 
 @onready var label_tile_type: Label = $TextureRect/Label_TileType
 @onready var label_movement_cost: Label = $TextureRect/Label_MovementCost
@@ -38,6 +39,11 @@ var inventory: Inventory = null
 @onready var enemy_hp_label = $TextureRect/BattlePanel/EnemyHealthLabel
 @onready var player_sprite = $TextureRect/BattlePanel/PlayerSprite
 @onready var enemy_sprite = $TextureRect/BattlePanel/EnemySprite
+#battle button
+@onready var battle_attack_btn: Button = $TextureRect/BattlePanel/attackButton
+@onready var battle_magic_btn: Button = $TextureRect/BattlePanel/magicButton
+@onready var battle_item_btn: Button = $TextureRect/BattlePanel/itemButton
+@onready var battle_run_btn: Button = $TextureRect/BattlePanel/runButton
 
 var shop_stock := []
 var selected_shop_index := -1
@@ -90,19 +96,29 @@ func _on_move_button_pressed() -> void:
 
 
 func _on_use_button_pressed():
+	if not inventory_interaction_enabled:
+		return
 	if selected_index == -1 or inventory == null or player == null:
 		return
 
 	player.use_item_from_inventory(selected_index)
 	selected_index = -1
 
+	# If in battle, using an item consumes the turn
+	if player.in_battle:
+		set_inventory_interaction(false)
+		player.battle_phase = Player.BattlePhase.ENEMY_TURN
+
 
 func _on_drop_button_pressed():
+	if not inventory_interaction_enabled:
+		return
 	if selected_index == -1 or inventory == null:
 		return
 
 	inventory.remove_item(selected_index, 1)
 	selected_index = -1
+
 
 
 func bind_inventory(inv: Inventory):
@@ -220,6 +236,8 @@ func enter_battle(player):
 	player.in_battle = true
 	shop_panel.visible = false
 	battle_panel.visible = true
+	
+	set_inventory_interaction(false)
 
 	# Player UI
 	player_hp_label.text = "HP: %d / %d" % [player.health, player.max_health]
@@ -238,3 +256,19 @@ func exit_battle(player):
 	player.current_enemy = null
 	player.in_battle = false
 	player.battle_locked = false
+	
+	set_inventory_interaction(true)
+
+func set_inventory_interaction(enabled: bool):
+	inventory_interaction_enabled = enabled
+	$TextureRect/Button/UseButton.disabled = not enabled
+	$TextureRect/Button/DropButton.disabled = not enabled
+
+
+func _on_battle_item_pressed():
+	if player == null:
+		return
+	if player.battle_phase != Player.BattlePhase.PLAYER_TURN:
+		return
+
+	set_inventory_interaction(true)

@@ -1,4 +1,5 @@
 extends Node2D
+class_name Player
 
 signal battle_started(player)
 
@@ -19,6 +20,13 @@ var crit: int = 2
 var gold: int = 100
 
 var crit_chance: int = 5
+
+enum BattlePhase {
+	PLAYER_TURN,
+	ENEMY_TURN
+}
+
+var battle_phase: BattlePhase = BattlePhase.PLAYER_TURN
 
 #battle stuff
 var battle_locked: bool = false

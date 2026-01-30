@@ -67,6 +67,5 @@ func try_start_battle(player):
 	var chosen_enemy = enemies[randi() % enemies.size()]
 
 	player.battle_locked = true
-	player.in_battle = true
 	player.current_enemy = chosen_enemy
 	player.battle_started.emit(player)
