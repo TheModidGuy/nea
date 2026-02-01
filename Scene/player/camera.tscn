@@ -344,4 +344,7 @@ layout_mode = 2
 [connection signal="pressed" from="CanvasLayer/camoverlay/TextureRect/Button/MoveButton" to="CanvasLayer/camoverlay" method="_on_move_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/camoverlay/TextureRect/Button/UseButton" to="CanvasLayer/camoverlay" method="_on_use_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/camoverlay/TextureRect/Button/DropButton" to="CanvasLayer/camoverlay" method="_on_drop_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/camoverlay/TextureRect/BattlePanel/attackButton" to="CanvasLayer/camoverlay" method="_on_attack_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/camoverlay/TextureRect/BattlePanel/magicButton" to="CanvasLayer/camoverlay" method="_on_magic_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/camoverlay/TextureRect/BattlePanel/itemButton" to="CanvasLayer/camoverlay" method="_on_battle_item_pressed"]
+[connection signal="pressed" from="CanvasLayer/camoverlay/TextureRect/BattlePanel/runButton" to="CanvasLayer/camoverlay" method="_on_run_button_pressed"]

@@ -1,7 +1,8 @@
 extends Node2D
 class_name Player
 
-signal battle_started(player)
+signal battle_started
+signal battle_ended(player_won)
 
 @onready var inventory: Inventory = $Inventory
 
@@ -14,7 +15,7 @@ var outOfEnergy: bool = false
 var speed: int = 6
 var attack: int = 7
 var defence: int = 6
-var magic_skill: int = 5
+var magic_skill: int = 100
 var crit: int = 2
 
 var gold: int = 100
@@ -23,7 +24,8 @@ var crit_chance: int = 5
 
 enum BattlePhase {
 	PLAYER_TURN,
-	ENEMY_TURN
+	ENEMY_TURN,
+	BATTLE_OVER
 }
 
 var battle_phase: BattlePhase = BattlePhase.PLAYER_TURN
@@ -76,7 +78,7 @@ func moveToTile(tile) -> bool:
 	if enemies_here.size() > 0:
 		for enemy in enemies_here:
 			enemy.try_start_battle(self)
-			break  # only start with the first enemy
+			break  # only starts with the first enemy
 	
 	emit_signal("moved", tile)
 	
@@ -92,7 +94,7 @@ func use_item_from_inventory(index: int):
 
 	var item: Item = slot["item"]
 
-	# --- CONSUMABLE ---
+	# consumable stuff
 	if item is ConsumableItem:
 		var c := item as ConsumableItem
 
@@ -109,7 +111,7 @@ func use_item_from_inventory(index: int):
 		return
 
 
-	# --- WEAPON ---
+	# weapon stuff
 	if item is WeaponItem:
 		var w := item as WeaponItem
 		attack += w.attack_bonus
@@ -119,10 +121,95 @@ func use_item_from_inventory(index: int):
 		return
 
 
-	# --- ARMOUR ---
+	# armour stuff
 	if item is ArmourItem:
 		var a := item as ArmourItem
 		defence += a.defence_bonus
 
 		inventory.remove_item(index, 1)
 		return
+
+
+
+# battle controls
+func end_battle(player_won: bool):
+	if not player_won and health <= 0:
+		game_over()
+		return
+	
+	print("Battle ended. Player won:", player_won)
+	BattleState.enemies_paused = false
+	battle_phase = BattlePhase.BATTLE_OVER
+	in_battle = false
+	battle_locked = false
+	battle_ended.emit(player_won)
+	
+
+
+func attack_enemy():
+	if not in_battle or battle_phase != BattlePhase.PLAYER_TURN:
+		return
+	if current_enemy == null:
+		return
+
+	var damage = max(1, attack - current_enemy.defence)
+	current_enemy.health -= damage
+	
+	print("Player hits enemy for", damage)
+	
+	if current_enemy.health <= 0:
+		current_enemy.health = 0
+		var enemy = current_enemy
+		end_battle(true)
+		enemy.die(self)
+	else:
+		battle_phase = BattlePhase.ENEMY_TURN
+
+func cast_magic():
+	if not in_battle or battle_phase != BattlePhase.PLAYER_TURN:
+		return
+	if current_enemy == null:
+		return
+		
+	if magic_skill < 25:
+		print("Not enough magic")
+		return
+	
+	magic_skill -= 25
+	
+	var damage = attack * 2 + 10
+	current_enemy.health -= damage
+
+	print("Player casts magic for", damage)
+
+	if current_enemy.health <= 0:
+		current_enemy.health = 0
+		var enemy = current_enemy
+		end_battle(true)
+		enemy.die(self)
+	else:
+		battle_phase = BattlePhase.ENEMY_TURN
+
+func try_run():
+	if not in_battle or current_enemy == null:
+		return false
+
+	if speed > current_enemy.speed:
+		BattleState.run_escape_tile = currentTile
+		end_battle(false)
+		return true
+
+	var speed_diff = current_enemy.speed - speed
+	var fail_chance = min(0.8, speed_diff * 0.15)
+
+	if randf() > fail_chance:
+		BattleState.run_escape_tile = currentTile
+		end_battle(false)
+		return true
+
+	print("Failed to run")
+	battle_phase = BattlePhase.ENEMY_TURN
+	return false
+
+func game_over():
+	get_tree().change_scene_to_file("res://Scene/Map/Main Menu.tscn")

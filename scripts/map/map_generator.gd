@@ -338,6 +338,22 @@ func move_player_to(tile):
 func enemy_turn():
 	if player_instance == null:
 		return
+		
+	if BattleState.enemies_paused:
+		return
+	
+	if BattleState.run_escape_tile != null:
+		var dist_from_escape = tile_distance(
+			player_instance.currentTile,
+			BattleState.run_escape_tile
+		)
+
+		if dist_from_escape < BattleState.run_escape_radius:
+			return
+		else:
+			# Player moved past distance
+			BattleState.run_escape_tile = null
+
 	
 	var player_tile = player_instance.currentTile
 	if player_tile == null:

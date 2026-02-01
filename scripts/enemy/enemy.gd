@@ -34,6 +34,9 @@ var crit_max: int = 5
 var crit_chance_min: int = 0
 var crit_chance_max: int = 100
 
+var gold_min := 0
+var gold_max := 0
+
 func _ready():
 	randomise_stats()
 
@@ -68,6 +71,37 @@ func try_start_battle(player):
 	
 	var chosen_enemy = enemies[randi() % enemies.size()]
 	
+	BattleState.enemies_paused = true
+	player.in_battle = true
 	player.battle_locked = true
 	player.current_enemy = chosen_enemy
-	player.battle_started.emit(player)
+	player.battle_started.emit()
+	player.battle_phase = Player.BattlePhase.PLAYER_TURN
+	
+
+func die(player):
+	var gold_reward = randi_range(gold_min, gold_max)
+	player.gold += gold_reward
+	print("Player got ", gold_reward, " gold")
+	
+	var spawner = get_parent().enemy_spawner
+	if spawner:
+		spawner.remove_enemy(self)
+		
+		queue_free()
+
+# battle controls
+func attack_player(player):
+	if player == null or not player.in_battle:
+		return
+
+	var damage = max(1, attack - player.defence)
+	player.health -= damage
+
+	print("Enemy hits player for", damage)
+
+	if player.health <= 0:
+		player.health = 0
+		player.end_battle(false)
+	else:
+		player.battle_phase = Player.BattlePhase.PLAYER_TURN

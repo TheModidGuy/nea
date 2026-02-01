@@ -52,3 +52,6 @@ func get_enemies_on_tile(tile):
 		if enemy.currentTile == tile:
 			result.append(enemy)
 	return result
+
+func remove_enemy(enemy):
+	enemies.erase(enemy)

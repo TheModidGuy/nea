@@ -231,13 +231,22 @@ func _on_player_moved(tile):
 func bind_player(p):
 	player = p
 	player.battle_started.connect(enter_battle)
+	player.battle_ended.connect(exit_battle)
 
-func enter_battle(player):
-	player.in_battle = true
+func update_battle_ui():
+	if player == null or player.current_enemy == null:
+		return
+
+	player_hp_label.text = "HP: %d / %d" % [player.health, player.max_health]
+	enemy_hp_label.text = "HP: %d / %d" % [player.current_enemy.health, player.current_enemy.max_health]
+
+
+func enter_battle():
 	shop_panel.visible = false
 	battle_panel.visible = true
 	
 	set_inventory_interaction(false)
+	update_battle_ui()
 
 	# Player UI
 	player_hp_label.text = "HP: %d / %d" % [player.health, player.max_health]
@@ -251,11 +260,15 @@ func enter_battle(player):
 		if enemy.has_node("Sprite2D"):
 			enemy_sprite.texture = enemy.get_node("Sprite2D").texture
 
-func exit_battle(player):
+func exit_battle(_player_won):
 	battle_panel.visible = false
+	
+	player_hp_label.text = ""
+	enemy_hp_label.text = ""
+	player_sprite.texture = null
+	enemy_sprite.texture = null
+	
 	player.current_enemy = null
-	player.in_battle = false
-	player.battle_locked = false
 	
 	set_inventory_interaction(true)
 
@@ -272,3 +285,69 @@ func _on_battle_item_pressed():
 		return
 
 	set_inventory_interaction(true)
+
+
+func _on_attack_button_pressed():
+	if player == null:
+		return
+	if player.battle_phase != Player.BattlePhase.PLAYER_TURN:
+		return
+		
+	player.attack_enemy()
+	
+	if not player.in_battle:
+		return
+	
+	update_battle_ui()
+	
+	if player.battle_phase == Player.BattlePhase.ENEMY_TURN:
+		player.current_enemy.attack_player(player)
+	
+		if not player.in_battle:
+			return
+
+		update_battle_ui()
+
+
+func _on_magic_button_pressed():
+	if player == null:
+		return
+	if player.battle_phase != Player.BattlePhase.PLAYER_TURN:
+		return
+
+	player.cast_magic()
+	
+	if not player.in_battle:
+		return
+	
+	update_battle_ui()
+
+	if player.battle_phase == Player.BattlePhase.ENEMY_TURN:
+		player.current_enemy.attack_player(player)
+		
+		if not player.in_battle:
+			return
+
+		update_battle_ui()
+
+
+func _on_run_button_pressed():
+	if player == null:
+		return
+	if player.battle_phase != Player.BattlePhase.PLAYER_TURN:
+		return
+	
+	var escaped = player.try_run()
+	
+	if not player.in_battle:
+		return
+	
+	update_battle_ui()
+
+	if not escaped and player.battle_phase == Player.BattlePhase.ENEMY_TURN:
+		player.current_enemy.attack_player(player)
+
+		if not player.in_battle:
+			return
+	
+		update_battle_ui()

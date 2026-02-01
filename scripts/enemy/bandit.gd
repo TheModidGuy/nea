@@ -24,6 +24,9 @@ func _ready():
 	crit_chance_min = 5
 	crit_chance_max = 20
 	
+	gold_min = 20
+	gold_max = 50
+	
 	super._ready()
 
 #bandit specific movement calculation

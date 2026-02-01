@@ -24,6 +24,9 @@ func _ready():
 	crit_chance_min = 0
 	crit_chance_max = 10
 	
+	gold_min = 50
+	gold_max = 100
+	
 	super._ready()
 
 #tile cost specific for wolf

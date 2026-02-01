@@ -24,6 +24,9 @@ func _ready():
 	crit_chance_min = 0
 	crit_chance_max = 20
 	
+	gold_min = 100
+	gold_max = 300
+	
 	super._ready()
 
 #dragon specific movement calculation

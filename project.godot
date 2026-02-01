@@ -15,6 +15,10 @@ run/main_scene="uid://0egcb67xnip2"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+BattleState="*res://scripts/BattleState.gd"
+
 [display]
 
 window/size/viewport_width=1280
