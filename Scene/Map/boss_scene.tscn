@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://pdclh1m2666l"]
-
-[ext_resource type="Texture2D" uid="uid://bg7t13kjpgw6t" path="res://Assets/Sprites/boss/boss.png" id="2_r1yhr"]
-
-[node name="BossScene" type="Node2D"]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture_filter = 1
-texture = ExtResource("2_r1yhr")

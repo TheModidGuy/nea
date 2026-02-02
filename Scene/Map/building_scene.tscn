@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://j58lu732nspq"]
+[gd_scene load_steps=27 format=3 uid="uid://j58lu732nspq"]
 
 [ext_resource type="Texture2D" uid="uid://fh5s4nei1iio" path="res://Assets/Sprites/resources/monkey-thinking.png" id="1_4e3u1"]
 [ext_resource type="Script" uid="uid://d0o6hscxy30ob" path="res://scripts/map/building.gd" id="1_nahpv"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://7ljsoadry80w" path="res://Assets/Sprites/resources/dungeon.png" id="4_ou3y3"]
 [ext_resource type="Texture2D" uid="uid://dvj8wkr8swhhi" path="res://Assets/Sprites/resources/tower.png" id="5_ydlrc"]
 [ext_resource type="Texture2D" uid="uid://blye77d23u37j" path="res://Assets/Sprites/resources/castle.png" id="6_xyldh"]
+[ext_resource type="Texture2D" uid="uid://bg7t13kjpgw6t" path="res://Assets/Sprites/boss/boss.png" id="7_go2kj"]
 [ext_resource type="Script" uid="uid://cunjui3w6u62m" path="res://scripts/Inventory and Item/items/item.gd" id="7_rvlvf"]
 [ext_resource type="Resource" uid="uid://du8vmnuycjd57" path="res://scripts/Inventory and Item/items/armour item/gold_chestplate.tres" id="8_go2kj"]
 [ext_resource type="Resource" uid="uid://c20q2f0jnunh5" path="res://scripts/Inventory and Item/items/armour item/gold_helmet.tres" id="9_ijxdf"]
@@ -33,6 +34,7 @@ shop_sprite = ExtResource("3_fhr5j")
 dungeon_sprite = ExtResource("4_ou3y3")
 tower_sprite = ExtResource("5_ydlrc")
 castle_sprite = ExtResource("6_xyldh")
+boss_scene = ExtResource("7_go2kj")
 city_reward_items = Array[ExtResource("7_rvlvf")]([ExtResource("8_go2kj"), ExtResource("9_ijxdf"), ExtResource("10_t85br"), ExtResource("11_05spt"), ExtResource("12_1ap72"), ExtResource("13_s1im5"), ExtResource("14_1v500"), ExtResource("15_ybsdi"), ExtResource("16_mhirs"), ExtResource("17_sj4f1"), ExtResource("18_hyaii"), ExtResource("19_pfo0e"), ExtResource("20_5fbs1"), ExtResource("21_xvkuy"), ExtResource("22_vjbh7"), ExtResource("23_j5j54"), ExtResource("24_shvdc")])
 shop_items = Array[ExtResource("7_rvlvf")]([ExtResource("8_go2kj"), ExtResource("9_ijxdf"), ExtResource("10_t85br"), ExtResource("11_05spt"), ExtResource("12_1ap72"), ExtResource("13_s1im5"), ExtResource("14_1v500"), ExtResource("15_ybsdi"), ExtResource("16_mhirs"), ExtResource("17_sj4f1"), ExtResource("18_hyaii"), ExtResource("19_pfo0e"), ExtResource("20_5fbs1"), ExtResource("21_xvkuy"), ExtResource("22_vjbh7"), ExtResource("23_j5j54"), ExtResource("24_shvdc")])
 

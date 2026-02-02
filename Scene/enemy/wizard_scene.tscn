@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://cds7m2b8hf5x8"]
 
 [ext_resource type="Script" uid="uid://mwxplgv0nh0p" path="res://scripts/enemy/wizard.gd" id="1_njg8o"]
-[ext_resource type="Texture2D" uid="uid://ceh1nmoppgku4" path="res://Assets/Sprites/enemy/dragon.png" id="2_exkns"]
+[ext_resource type="Texture2D" uid="uid://bojhqumk5s338" path="res://Assets/Sprites/enemy/wizard.png" id="2_njg8o"]
 
 [node name="WizardScene" type="Node2D"]
 script = ExtResource("1_njg8o")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("2_exkns")
+texture = ExtResource("2_njg8o")

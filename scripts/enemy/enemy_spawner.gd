@@ -4,6 +4,8 @@ extends Node
 @export var bandit_scene: PackedScene
 @export var dragon_scene: PackedScene
 
+@export var wizard_scene: PackedScene
+
 var enemies: Array = []
 var map
 

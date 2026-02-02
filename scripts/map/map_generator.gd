@@ -72,6 +72,8 @@ func _ready():
 	spawn_buildings()
 	spawn_initial_enemies()
 	
+	spawn_boss_building()
+	
 	
 	player_instance.connect("moved",Callable(self, "enemy_turn"))
 
@@ -137,6 +139,17 @@ func spawn_building(tile, forced_type := ""):
 	building.position = Vector2.ZERO
 
 	occupied_tiles.append(tile)
+
+func spawn_boss_building():
+	var x := map_width - 4
+	var y := map_height - 4
+
+	var tile := get_tile(x, y)
+	if tile == null:
+		push_error("Boss tile out of bounds")
+		return
+
+	spawn_building(tile, "boss")
 
 
 func spawn_buildings():

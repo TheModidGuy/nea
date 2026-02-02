@@ -17,7 +17,6 @@ signal shop_entered(stock)
 
 var shop_stock := []
 
-
 var building_type: String = ""
 var currentTile
 
@@ -39,6 +38,8 @@ func apply_sprite():
 			sprite.texture = tower_sprite
 		"castle":
 			sprite.texture = castle_sprite
+		"boss":
+			sprite.texture = boss_scene
 
 # buildings randomly picked via weights
 const BUILDINGS = [
@@ -89,6 +90,8 @@ func interact(player):
 			enter_tower(player)
 		"castle":
 			enter_castle(player)
+		"boss":
+			enter_boss(player)
 
 func enter_city(player):
 	if city_reward_items.is_empty():
@@ -170,3 +173,12 @@ func enter_castle(player):
 		
 	spawner.spawn_specific_enemy_on_tile(spawner.dragon_scene, currentTile)
 	print("Dragon spawned at tower")
+
+func enter_boss(player):
+	var spawner = get_tree().get_first_node_in_group("EnemySpawner")
+	if spawner == null:
+		print("EnemySpawner not found")
+		return
+		
+	spawner.spawn_specific_enemy_on_tile(spawner.wizard_scene, currentTile)
+	print("wizard spawned at boss")
