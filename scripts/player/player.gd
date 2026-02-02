@@ -11,7 +11,6 @@ var energy: int = 100
 var max_energy: int = 100
 var health: int = 100
 var max_health: int = 100
-var outOfEnergy: bool = false
 
 var speed: int = 6
 var attack: int = 7
@@ -51,20 +50,17 @@ func moveToTile(tile) -> bool:
 	
 	var cost = tile.cost
 	
-	if energy < cost or energy - cost < 0:
+	if energy >= cost:
+		energy -= cost
+	else:
 		energy = 0
-		print("Not enough energy")
-		outOfEnergy = true
 		if health > 20:
 			health -= 1
-		print("Health: ", health)
 		
 	# movement
 	position = tile.position
 	currentTile = tile
 	
-	if !outOfEnergy:
-		energy -= cost
 		
 	print("Moved to: ", tile.terrainType, "Energy left: ", energy)
 	

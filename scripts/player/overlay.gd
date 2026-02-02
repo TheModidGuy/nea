@@ -108,6 +108,10 @@ func _on_use_button_pressed():
 	if player.in_battle:
 		set_inventory_interaction(false)
 		player.battle_phase = Player.BattlePhase.ENEMY_TURN
+	
+		player.current_enemy.attack_player(player)
+	
+		update_battle_ui()
 
 
 func _on_drop_button_pressed():
