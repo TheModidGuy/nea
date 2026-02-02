@@ -16,6 +16,13 @@ const ENEMIES = [
 func setup(map_ref):
 	map = map_ref
 
+func spawn_specific_enemy_on_tile(enemy_scene: PackedScene, tile):
+	var enemy = enemy_scene.instantiate()
+	enemy.position = tile.position
+	enemy.currentTile = tile
+	map.add_child(enemy)
+	enemies.append(enemy)
+
 #spawns an enemy on a tile
 func spawn_enemy_on_tile(tile):
 	var enemy = _pick_enemy().instantiate()

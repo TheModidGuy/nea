@@ -6,6 +6,8 @@ extends Node2D
 @export var tower_sprite: Texture2D
 @export var castle_sprite: Texture2D
 
+@export var boss_scene: Texture2D
+
 #city stuff
 @export var city_reward_items: Array[Item]
 
@@ -71,6 +73,8 @@ func interact(player):
 		return
 	
 	if building_type == "city":
+		player.energy += 100
+		player.energy = min(player.energy, player.max_energy)
 		visited = true
 	
 	# calls logic for what happens when interact with building
@@ -109,7 +113,7 @@ func get_item_price(item: Item) -> int:
 			"mana_potion":
 				return 5
 			_:
-				return 5  # default price for any other consumable
+				return 5 
 	elif item is WeaponItem:
 		return 25
 	elif item is ArmourItem:
@@ -140,10 +144,29 @@ func enter_shop(player):
 
 
 func enter_dungeon(player):
-	print("Entered dungeon (battle later)")
+	var spawner = get_tree().get_first_node_in_group("EnemySpawner")
+	if spawner == null:
+		print("EnemySpawner not found")
+		return
+		
+	spawner.spawn_specific_enemy_on_tile(spawner.wolf_scene, currentTile)
+	print("Wolf spawned at dungeon")
 
 func enter_tower(player):
-	print("Entered tower (logic later)")
+	var spawner = get_tree().get_first_node_in_group("EnemySpawner")
+	if spawner == null:
+		print("EnemySpawner not found")
+		return
+		
+	spawner.spawn_specific_enemy_on_tile(spawner.bandit_scene, currentTile)
+	print("Bandit spawned at tower")
+
 
 func enter_castle(player):
-	print("Entered castle (logic later)")
+	var spawner = get_tree().get_first_node_in_group("EnemySpawner")
+	if spawner == null:
+		print("EnemySpawner not found")
+		return
+		
+	spawner.spawn_specific_enemy_on_tile(spawner.dragon_scene, currentTile)
+	print("Dragon spawned at tower")

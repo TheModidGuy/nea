@@ -100,10 +100,10 @@ func _on_use_button_pressed():
 		return
 	if selected_index == -1 or inventory == null or player == null:
 		return
-
+	
 	player.use_item_from_inventory(selected_index)
 	selected_index = -1
-
+	
 	# If in battle, using an item consumes the turn
 	if player.in_battle:
 		set_inventory_interaction(false)

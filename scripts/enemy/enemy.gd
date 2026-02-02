@@ -9,7 +9,6 @@ var max_health: int
 var speed: int
 var attack: int
 var defence: int
-var magic_skill: int
 var crit: int
 var crit_chance: int
 
@@ -24,9 +23,6 @@ var attack_max: int = 100
 
 var defence_min: int = 0
 var defence_max: int = 100
-
-var magic_skill_min: int = 0
-var magic_skill_max: int = 100
 
 var crit_min: int = 0
 var crit_max: int = 5
@@ -48,7 +44,6 @@ func randomise_stats():
 	speed = randi_range(speed_min, speed_max)
 	attack = randi_range(attack_min, attack_max)
 	defence = randi_range(defence_min, defence_max)
-	magic_skill = randi_range(magic_skill_min, magic_skill_max)
 	crit = randi_range(crit_min, crit_max)
 	crit_chance = randi_range(crit_chance_min, crit_chance_max)
 

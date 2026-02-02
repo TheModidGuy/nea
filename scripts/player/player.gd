@@ -7,7 +7,8 @@ signal battle_ended(player_won)
 @onready var inventory: Inventory = $Inventory
 
 var currentTile: Node = null
-var energy: int = 50
+var energy: int = 100
+var max_energy: int = 100
 var health: int = 100
 var max_health: int = 100
 var outOfEnergy: bool = false
@@ -104,8 +105,12 @@ func use_item_from_inventory(index: int):
 		if c.energy_amount > 0:
 			energy += c.energy_amount
 
-		health = min(health, 100)
-		energy = min(energy, 50)
+		if c.mana_amount > 0:
+			magic_skill += c.mana_amount
+
+		health = min(health, max_health)
+		energy = min(energy, max_energy)
+		magic_skill = min(magic_skill, 100)
 
 		inventory.remove_item(index, 1)
 		return

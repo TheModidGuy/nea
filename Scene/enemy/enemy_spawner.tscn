@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b4w1wxfbwg01h" path="res://Scene/enemy/bandit_scene.tscn" id="3_yxnxv"]
 [ext_resource type="PackedScene" uid="uid://3scwiuig5ktq" path="res://Scene/enemy/dragon_scene.tscn" id="4_4f385"]
 
-[node name="EnemySpawner" type="Node2D"]
+[node name="EnemySpawner" type="Node2D" groups=["EnemySpawner"]]
 script = ExtResource("1_p02hd")
 wolf_scene = ExtResource("2_poo8c")
 bandit_scene = ExtResource("3_yxnxv")

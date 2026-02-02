@@ -15,9 +15,6 @@ func _ready():
 	defence_min = 1
 	defence_max = 5
 
-	magic_skill_min = 0
-	magic_skill_max = 0
-
 	crit_min = 0
 	crit_max = 2
 
