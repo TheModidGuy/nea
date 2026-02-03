@@ -38,44 +38,48 @@ func _ready():
 	randomize()
 	terrain_noise.seed = randi()
 	terrain_noise.frequency = 0.1
-	
+
 	await get_tree().process_frame
 
+	# Overlay setup
 	var overlays = get_tree().get_nodes_in_group("OverlayUI")
 	if overlays.size() > 0:
 		overlay = overlays[0]
 		overlay.map = self
+		overlay.move_requested.connect(request_player_move)
 	else:
 		push_warning("Overlay not found")
-	
-	overlay.move_requested.connect(request_player_move)
-	
+
+	# A* setup
 	if astar_scene == null:
 		push_error("AStarScene not assigned")
 		return
-
 	astar = astar_scene.instantiate()
 	add_child(astar)
 
-	
+	# Enemy spawner setup
 	if enemy_spawner_scene == null:
 		push_error("Can't find enemy spawner scene")
 		return
+	enemy_spawner = enemy_spawner_scene.instantiate()
+	add_child(enemy_spawner)
+	enemy_spawner.setup(self)
+
+	# Load or generate map
+	if SaveBuffer.pending_map_string != "":
+		load_from_save_string(SaveBuffer.pending_map_string)
+		SaveBuffer.pending_map_string = ""
 	else:
-		enemy_spawner = enemy_spawner_scene.instantiate()
-		add_child(enemy_spawner)
-		enemy_spawner.setup(self)
+		generate_map()
+		spawn_buildings()
+		spawn_initial_enemies()
+		spawn_boss_building()
 	
-	generate_map()
+	
 	connect_neighbors()
 	place_player(4,4)
-	spawn_buildings()
-	spawn_initial_enemies()
-	
-	spawn_boss_building()
-	
-	
-	player_instance.connect("moved",Callable(self, "enemy_turn"))
+	player_instance.connect("moved", Callable(self, "enemy_turn"))
+
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -87,6 +91,10 @@ func _unhandled_input(event):
 				overlay.update_tile_info(clicked_tile)
 	if event.is_action_pressed("player_move"):
 		request_player_move()
+
+func spawn_player_after_load():
+	place_player(4, 4) 
+
 
 func request_player_move():
 	var tile_to_move = last_highlighted_tile
@@ -523,3 +531,12 @@ func parse_save_string(save_string: String) -> Dictionary:
 		return {}
 
 	return result
+
+func load_from_save_string(save_string: String):
+	var data := parse_save_string(save_string)
+	if data.is_empty():
+		push_error("Failed to load save string")
+		return
+
+	load_map_from_data(data)
+	spawn_player_after_load()

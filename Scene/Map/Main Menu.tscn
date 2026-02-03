@@ -92,7 +92,7 @@ offset_bottom = 0.27999878
 text = "Import Map
 "
 
-[node name="TextEdit" type="TextEdit" parent="."]
+[node name="ImportTextEdit" type="TextEdit" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.60200006
@@ -107,3 +107,4 @@ wrap_mode = 1
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="ImportMapBtn" to="." method="_on_ImportMapBtn_pressed"]
