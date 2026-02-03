@@ -48,12 +48,38 @@ var inventory: Inventory = null
 var shop_stock := []
 var selected_shop_index := -1
 
+# saving stuff
+@onready var save_panel: Panel = $TextureRect/SavePanel
+@onready var save_output: TextEdit = $TextureRect/SavePanel/VBoxContainer/SaveOutput
 
 func _ready():
 	add_to_group("OverlayUI")
 
 func _process(_delta):
 	update_player_stats()
+
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_cancel"):
+		toggle_save_panel()
+
+#saving stuff + esc menu
+func toggle_save_panel():
+	save_panel.visible = not save_panel.visible
+
+func _on_ContinueButton_pressed():
+	save_panel.visible = false
+
+func _on_SaveButton_pressed():
+	if map == null:
+		return
+
+	var save_string = map.generate_save_string()
+	save_output.text = save_string
+	save_output.select_all()
+
+func _on_QuitButton_pressed():
+	get_tree().quit()
+
 
 
 func update_player_stats():
@@ -215,10 +241,8 @@ func _on_PurchaseButton_pressed():
 		selected_shop_index = -1
 		purchase_button.disabled = true
 
-	# Refresh the UI
 	_refresh_shop_ui()
 
-	# Hide shop if empty
 	if shop_stock.is_empty():
 		shop_panel.visible = false
 

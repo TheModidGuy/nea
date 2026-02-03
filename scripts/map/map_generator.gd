@@ -398,3 +398,128 @@ func enemy_turn():
 
 func tile_distance(a: Node, b: Node) -> int:
 	return abs(a.grid_x - b.grid_x) + abs(a.grid_y - b.grid_y)
+
+
+
+
+
+
+
+
+
+# saving stuff !!!!!!!!!!!!!!!!!!
+
+func encode_terrain(t: String) -> String:
+	match t:
+		"grass": return "g"
+		"water": return "w"
+		"mountain": return "m"
+		"snow": return "s"
+	return "g"
+
+func decode_terrain(c: String) -> String:
+	match c:
+		"g": return "grass"
+		"w": return "water"
+		"m": return "mountain"
+		"s": return "snow"
+	return "grass"
+
+func serialize_map() -> Dictionary:
+	var data := {}
+	data.w = map_width
+	data.h = map_height
+
+	# Tiles
+	var tile_data := []
+	for y in range(map_height):
+		for x in range(map_width):
+			var tile = tiles[y][x]
+			tile_data.append(encode_terrain(tile.terrainType))
+	data.tiles = tile_data
+
+	# Buildings 
+	var building_data := []
+	for y in range(map_height):
+		for x in range(map_width):
+			var tile = tiles[y][x]
+			if tile.has_building:
+				building_data.append({
+					"x": x,
+					"y": y,
+					"t": tile.building_on_tile
+				})
+	data.buildings = building_data
+
+	# Enemies
+	var enemy_data := []
+	for enemy in enemy_spawner.enemies:
+		if not is_instance_valid(enemy):
+			continue
+		enemy_data.append({
+			"x": enemy.currentTile.grid_x,
+			"y": enemy.currentTile.grid_y,
+			"t": enemy.name
+		})
+	data.enemies = enemy_data
+
+	return data
+
+func load_map_from_data(data: Dictionary):
+	map_width = data.w
+	map_height = data.h
+
+	# Clear old map
+	for row in tiles:
+		for tile in row:
+			tile.queue_free()
+	tiles.clear()
+
+	# Create tiles
+	var i := 0
+	for y in range(map_height):
+		tiles.append([])
+		for x in range(map_width):
+			var tile = hex_tile_scene.instantiate()
+			tile.position = Vector2(x * tile_size, y * tile_size)
+			tile.grid_x = x
+			tile.grid_y = y
+			tile.terrainType = decode_terrain(data.tiles[i])
+			i += 1
+
+			add_child(tile)
+			tiles[y].append(tile)
+
+	connect_neighbors()
+
+	# Buildings
+	for b in data.buildings:
+		var tile = get_tile(b.x, b.y)
+		spawn_building(tile, b.t)
+
+	# Enemies
+	for e in data.enemies:
+		var tile = get_tile(e.x, e.y)
+		match e.t:
+			"wolf": enemy_spawner.spawn_specific_enemy_on_tile(enemy_spawner.wolf_scene, tile)
+			"bandit": enemy_spawner.spawn_specific_enemy_on_tile(enemy_spawner.bandit_scene, tile)
+			"dragon": enemy_spawner.spawn_specific_enemy_on_tile(enemy_spawner.dragon_scene, tile)
+
+
+func generate_save_string() -> String:
+	var dict = serialize_map()
+	var json := JSON.stringify(dict)
+	var bytes: PackedByteArray = json.to_utf8_buffer()
+	return Marshalls.raw_to_base64(bytes)
+
+
+func parse_save_string(save_string: String) -> Dictionary:
+	var bytes: PackedByteArray = Marshalls.base64_to_raw(save_string)
+	var json_string := bytes.get_string_from_utf8()
+	var result = JSON.parse_string(json_string)
+
+	if typeof(result) != TYPE_DICTIONARY:
+		push_error("Invalid save string")
+		return {}
+
+	return result

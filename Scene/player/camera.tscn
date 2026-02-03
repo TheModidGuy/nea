@@ -323,6 +323,51 @@ offset_right = -0.06604004
 offset_bottom = 1.0
 text = "Run"
 
+[node name="SavePanel" type="Panel" parent="CanvasLayer/camoverlay/TextureRect"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.11800001
+anchor_top = 0.093
+anchor_right = 0.744
+anchor_bottom = 0.624
+offset_left = -0.040008545
+offset_top = 0.040000916
+offset_right = -0.32000732
+offset_bottom = -0.27999878
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/camoverlay/TextureRect/SavePanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.022000002
+anchor_top = 0.047000002
+anchor_right = 0.9760001
+anchor_bottom = 0.95500004
+offset_left = 0.37799835
+offset_top = 0.045999527
+offset_right = 0.22393799
+offset_bottom = 0.18997192
+
+[node name="ContinueButton" type="Button" parent="CanvasLayer/camoverlay/TextureRect/SavePanel/VBoxContainer"]
+layout_mode = 2
+text = "Continue"
+
+[node name="SaveButton" type="Button" parent="CanvasLayer/camoverlay/TextureRect/SavePanel/VBoxContainer"]
+layout_mode = 2
+text = "Save
+"
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/camoverlay/TextureRect/SavePanel/VBoxContainer"]
+layout_mode = 2
+text = "Quit
+"
+
+[node name="SaveOutput" type="TextEdit" parent="CanvasLayer/camoverlay/TextureRect/SavePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+editable = false
+wrap_mode = 1
+
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/camoverlay"]
 clip_contents = false
 custom_minimum_size = Vector2(200, 200)
@@ -348,3 +393,6 @@ layout_mode = 2
 [connection signal="pressed" from="CanvasLayer/camoverlay/TextureRect/BattlePanel/magicButton" to="CanvasLayer/camoverlay" method="_on_magic_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/camoverlay/TextureRect/BattlePanel/itemButton" to="CanvasLayer/camoverlay" method="_on_battle_item_pressed"]
 [connection signal="pressed" from="CanvasLayer/camoverlay/TextureRect/BattlePanel/runButton" to="CanvasLayer/camoverlay" method="_on_run_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/camoverlay/TextureRect/SavePanel/VBoxContainer/ContinueButton" to="CanvasLayer/camoverlay" method="_on_ContinueButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/camoverlay/TextureRect/SavePanel/VBoxContainer/SaveButton" to="CanvasLayer/camoverlay" method="_on_SaveButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/camoverlay/TextureRect/SavePanel/VBoxContainer/QuitButton" to="CanvasLayer/camoverlay" method="_on_QuitButton_pressed"]
