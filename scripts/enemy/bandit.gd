@@ -1,7 +1,11 @@
 extends Enemy
 class_name Bandit
 
+
+
 func _ready():
+	enemy_type = "bandit"
+
 	#Stats for bandit
 	health_min= 25
 	health_max = 75

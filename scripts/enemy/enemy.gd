@@ -3,6 +3,8 @@ class_name Enemy
 
 var currentTile: Node = null
 
+var enemy_type: String = "enemy"
+
 # stats :P
 var health: int
 var max_health: int

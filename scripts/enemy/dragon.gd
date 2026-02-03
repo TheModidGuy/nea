@@ -2,6 +2,8 @@ extends Enemy
 class_name Dragon
 
 func _ready():
+	enemy_type = "dragon"
+	
 	#stats for dragon
 	health_min= 30
 	health_max = 60

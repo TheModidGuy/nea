@@ -92,8 +92,8 @@ func _unhandled_input(event):
 	if event.is_action_pressed("player_move"):
 		request_player_move()
 
-func spawn_player_after_load():
-	place_player(4, 4) 
+#func spawn_player_after_load():
+	#place_player(4, 4) 
 
 
 func request_player_move():
@@ -467,7 +467,7 @@ func serialize_map() -> Dictionary:
 		enemy_data.append({
 			"x": enemy.currentTile.grid_x,
 			"y": enemy.currentTile.grid_y,
-			"t": enemy.name
+			"t": enemy.enemy_type
 		})
 	data.enemies = enemy_data
 
@@ -539,4 +539,3 @@ func load_from_save_string(save_string: String):
 		return
 
 	load_map_from_data(data)
-	spawn_player_after_load()
