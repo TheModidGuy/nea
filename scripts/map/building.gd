@@ -139,7 +139,7 @@ func enter_shop(player):
 		stock.append({
 			"item": item,
 			"amount": amount,
-			"price": get_item_price(item)  # per-unit price
+			"price": get_item_price(item)  # per-unit price fix
 		})
 	
 	# Emit signal to overlay to show shop
@@ -147,6 +147,7 @@ func enter_shop(player):
 
 
 func enter_dungeon(player):
+	# spawns wolf enemy when player enters
 	var spawner = get_tree().get_first_node_in_group("EnemySpawner")
 	if spawner == null:
 		print("EnemySpawner not found")
@@ -156,6 +157,7 @@ func enter_dungeon(player):
 	print("Wolf spawned at dungeon")
 
 func enter_tower(player):
+	# spawns bandit enemy when player enters
 	var spawner = get_tree().get_first_node_in_group("EnemySpawner")
 	if spawner == null:
 		print("EnemySpawner not found")
@@ -166,6 +168,7 @@ func enter_tower(player):
 
 
 func enter_castle(player):
+	# spawns dragon enemy when player enters
 	var spawner = get_tree().get_first_node_in_group("EnemySpawner")
 	if spawner == null:
 		print("EnemySpawner not found")
@@ -175,6 +178,7 @@ func enter_castle(player):
 	print("Dragon spawned at tower")
 
 func enter_boss(player):
+	# spawns wizard when player enter
 	var spawner = get_tree().get_first_node_in_group("EnemySpawner")
 	if spawner == null:
 		print("EnemySpawner not found")

@@ -152,8 +152,6 @@ func _unhandled_input(event):
 	if event.is_action_pressed("player_move"):
 		request_player_move()
 
-#func spawn_player_after_load():
-	#place_player(4, 4) 
 
 func apply_difficulty():
 	var diff = DifficultyBuffer.selected_difficulty
@@ -260,12 +258,12 @@ func generate_map():
 		for x in range(map_width):
 			var tile_instance = hex_tile_scene.instantiate()
 			
-			# Hex grid positioning
+			# grid positioning
 			tile_instance.position = Vector2(x * tile_size, y * tile_size)
 			
-			# Terrain from noise
+			# Terrain from noise and normalises to 1
 			var n = terrain_noise.get_noise_2d(x, y)
-			n = (n + 1) / 2  # normalize to 0–1
+			n = (n + 1) / 2
 
 			if n < 0.3:
 				tile_instance.terrainType = "mountain"
@@ -283,10 +281,6 @@ func generate_map():
 			add_child(tile_instance)
 			tiles[y].append(tile_instance)
 
-			## Optional: resource placement
-			#var r = resource_noise.get_noise_2d(x, y)
-			#r = (r + 1) / 2
-			#tile_instance.has_resource = (r > 0.7 and tile_instance.terrainType != "water")
 
 func connect_neighbors():
 	var directions = [
@@ -346,7 +340,7 @@ func place_player(x: int = 0, y: int = 0):
 	var potion: Item = load("res://scripts/Inventory and Item/items/consumable items/medium_health_potion.tres")
 	var sword: Item = load("res://scripts/Inventory and Item/items/weapon items/stone_sword.tres")
 	
-	player_instance.inventory.add_item(potion, 3)
+	player_instance.inventory.add_item(potion, 5)
 	player_instance.inventory.add_item(sword, 1)
 
 func spawn_initial_enemies():

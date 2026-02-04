@@ -15,12 +15,6 @@ func _ready():
 	defence_min = 20
 	defence_max = 45
 
-	crit_min = 8
-	crit_max = 12
-
-	crit_chance_min = 30
-	crit_chance_max = 60
-	
 	gold_min = 1
 	gold_max = 2
 	

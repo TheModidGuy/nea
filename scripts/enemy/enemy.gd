@@ -5,14 +5,12 @@ var currentTile: Node = null
 
 var enemy_type: String = "enemy"
 
-# stats :P
+# stats 
 var health: int
 var max_health: int
 var speed: int
 var attack: int
 var defence: int
-var crit: int
-var crit_chance: int
 
 var health_min: int = 10
 var health_max: int = 500
@@ -25,12 +23,6 @@ var attack_max: int = 100
 
 var defence_min: int = 0
 var defence_max: int = 100
-
-var crit_min: int = 0
-var crit_max: int = 5
-
-var crit_chance_min: int = 0
-var crit_chance_max: int = 100
 
 var gold_min := 0
 var gold_max := 0
@@ -46,8 +38,6 @@ func randomise_stats():
 	speed = randi_range(speed_min, speed_max)
 	attack = randi_range(attack_min, attack_max)
 	defence = randi_range(defence_min, defence_max)
-	crit = randi_range(crit_min, crit_max)
-	crit_chance = randi_range(crit_chance_min, crit_chance_max)
 
 # returns normal tile cost unless theres a building on tile then return big num
 func get_tile_cost(tile) -> int:
@@ -68,6 +58,7 @@ func try_start_battle(player):
 	
 	var chosen_enemy = enemies[randi() % enemies.size()]
 	
+	# all the battle stuff being set, like pausing other enemies and stopping player movement
 	BattleState.enemies_paused = true
 	player.in_battle = true
 	player.battle_locked = true
@@ -77,6 +68,7 @@ func try_start_battle(player):
 	
 
 func die(player):
+	# When enemy die, player gets gold
 	var gold_reward = randi_range(gold_min, gold_max)
 	player.gold += gold_reward
 	player.gold_earned += gold_reward
@@ -84,6 +76,7 @@ func die(player):
 	
 	print("Checking game win conditions:", enemy_type, currentTile, currentTile.building_on_tile if currentTile else "No tile")
 	
+	# this is overall game win condition
 	if enemy_type == "wizard" and currentTile.has_building and currentTile.building_on_tile == "boss":
 		print("Game won condition met")
 		if Global.overlay:

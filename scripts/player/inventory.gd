@@ -12,7 +12,7 @@ func _ready():
 	slots.resize(size)
 	slots.fill(null)
 
-
+# code to add item into inventory
 func add_item(item: Item, amount := 1) -> bool:
 	for i in range(size):
 		var slot = slots[i]

@@ -15,7 +15,7 @@ var health: int = 100
 var max_health: int = 100
 
 var speed: int = 6
-var attack: int = 500
+var attack: int = 7
 var defence: int = 6
 var magic_skill: int = 100
 var crit: int = 2
@@ -88,7 +88,7 @@ func moveToTile(tile) -> bool:
 	if enemies_here.size() > 0:
 		for enemy in enemies_here:
 			enemy.try_start_battle(self)
-			break  # only starts with the first enemy
+			break
 	
 	emit_signal("moved", tile)
 	

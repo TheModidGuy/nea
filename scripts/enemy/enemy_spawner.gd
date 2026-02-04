@@ -11,6 +11,7 @@ var map
 
 var ENEMIES := []
 
+# enemies have different weights depending on difficulty
 func set_enemy_weights(weights: Dictionary):
 	ENEMIES.clear()
 
@@ -27,6 +28,7 @@ func spawn_specific_enemy_on_tile(enemy_scene: PackedScene, tile):
 	enemy.position = tile.position
 	enemy.currentTile = tile
 	
+	# fix for bug where wizard is enemy type "enemy"
 	if enemy_scene == wizard_scene:
 		enemy.enemy_type = "wizard"
 	

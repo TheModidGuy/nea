@@ -137,7 +137,7 @@ func _on_use_button_pressed():
 	player.use_item_from_inventory(selected_index)
 	selected_index = -1
 	
-	# If in battle, using an item consumes the turn
+	# If in battle using an item consumes the turn
 	if player.in_battle:
 		set_inventory_interaction(false)
 		player.battle_phase = Player.BattlePhase.ENEMY_TURN
@@ -258,7 +258,7 @@ func _on_PurchaseButton_pressed():
 func _on_player_moved(tile):
 	# Player stepped onto a shop
 	if tile.has_building and tile.building_on_tile == "shop":
-		return  # shop will already be opened by building signal
+		return
 
 	# Player left shop
 	shop_panel.visible = false
