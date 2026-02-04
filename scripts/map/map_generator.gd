@@ -119,7 +119,6 @@ func _ready():
 	else:
 		generate_map()
 		spawn_buildings()
-		place_player(4,4)
 		spawn_initial_enemies()
 		spawn_boss_building()
 	
