@@ -34,8 +34,51 @@ var highlight_sprite: Sprite2D = null
 var last_highlighted_tile: Node = null
 
 
+const DIFFICULTY_PRESETS := {
+	DifficultyBuffer.Difficulty.EASY: {
+		"map_w": 18,
+		"map_h": 18,
+		"enemy_count": 8,
+		"building_count": 8,
+		"noise_freq": 0.08,
+		"enemy_weights": {
+			"wolf": 70,
+			"bandit": 25,
+			"dragon": 5
+		}
+	},
+	DifficultyBuffer.Difficulty.NORMAL: {
+		"map_w": 30,
+		"map_h": 30,
+		"enemy_count": 20,
+		"building_count": 15,
+		"noise_freq": 0.1,
+		"enemy_weights": {
+			"wolf": 50,
+			"bandit": 35,
+			"dragon": 15
+		}
+	},
+	DifficultyBuffer.Difficulty.HARD: {
+		"map_w": 50,
+		"map_h": 50,
+		"enemy_count": 30,
+		"building_count": 25,
+		"noise_freq": 0.13,
+		"enemy_weights": {
+			"wolf": 30,
+			"bandit": 35,
+			"dragon": 35
+		}
+	}
+}
+
+
 func _ready():
 	randomize()
+	
+	apply_difficulty()
+	
 	terrain_noise.seed = randi()
 	terrain_noise.frequency = 0.1
 
@@ -64,6 +107,10 @@ func _ready():
 	enemy_spawner = enemy_spawner_scene.instantiate()
 	add_child(enemy_spawner)
 	enemy_spawner.setup(self)
+	
+	var diff = DifficultyBuffer.selected_difficulty
+	var preset = DIFFICULTY_PRESETS[diff]
+	enemy_spawner.set_enemy_weights(preset.enemy_weights)
 
 	# Load or generate map
 	if SaveBuffer.pending_map_string != "":
@@ -72,6 +119,7 @@ func _ready():
 	else:
 		generate_map()
 		spawn_buildings()
+		place_player(4,4)
 		spawn_initial_enemies()
 		spawn_boss_building()
 	
@@ -94,6 +142,17 @@ func _unhandled_input(event):
 
 #func spawn_player_after_load():
 	#place_player(4, 4) 
+
+func apply_difficulty():
+	var diff = DifficultyBuffer.selected_difficulty
+	var preset = DIFFICULTY_PRESETS[diff]
+
+	map_width = preset.map_w
+	map_height = preset.map_h
+	count = preset.enemy_count
+	building_count = preset.building_count
+	terrain_noise.frequency = preset.noise_freq
+
 
 
 func request_player_move():
@@ -235,11 +294,7 @@ func connect_neighbors():
 				var ny = y + int(d.y)
 				if nx >= 0 and nx < map_width and ny >= 0 and ny < map_height:
 					t.neighbors.append(tiles[ny][nx])
-	
-	print("Tile (0,0) neighbors: ", tiles[0][0].neighbors.size())
-	print("Tile (1,0) neighbors: ", tiles[1][0].neighbors.size())
-	print("Tile (7,7) neighbors: ", tiles[7][7].neighbors.size())
-	print("Tile (25,25) neighbors: ", tiles[24][24].neighbors.size())
+
 
 func get_tile(x: int, y: int) -> Node:
 	if y >= 0 and y < map_height and x >= 0 and x < map_width:
@@ -310,9 +365,15 @@ func spawn_initial_enemies():
 		for enemy in enemy_spawner.enemies:
 			if enemy.currentTile == null:
 				continue
+			
+			if enemy.currentTile == tile:
+				too_close = true
+				break
+			
 			if tile_distance(tile, enemy.currentTile) < ENEMY_SAFE_RADIUS:
 				too_close = true
 				break
+
 
 		if too_close:
 			continue
@@ -504,6 +565,12 @@ func load_map_from_data(data: Dictionary):
 	for b in data.buildings:
 		var tile = get_tile(b.x, b.y)
 		spawn_building(tile, b.t)
+
+	# Clear old enemies
+	for enemy in enemy_spawner.enemies:
+		if is_instance_valid(enemy):
+			enemy.queue_free()
+	enemy_spawner.enemies.clear()
 
 	# Enemies
 	for e in data.enemies:

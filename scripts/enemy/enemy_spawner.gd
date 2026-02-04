@@ -9,11 +9,15 @@ extends Node
 var enemies: Array = []
 var map
 
-const ENEMIES = [
-	{"scene": "wolf", "weight": 50},
-	{"scene": "bandit", "weight": 35},
-	{"scene": "dragon", "weight": 5}
-]
+var ENEMIES := []
+
+func set_enemy_weights(weights: Dictionary):
+	ENEMIES.clear()
+
+	ENEMIES.append({ "scene": "wolf", "weight": weights["wolf"] })
+	ENEMIES.append({ "scene": "bandit", "weight": weights["bandit"] })
+	ENEMIES.append({ "scene": "dragon", "weight": weights["dragon"] })
+
 
 func setup(map_ref):
 	map = map_ref

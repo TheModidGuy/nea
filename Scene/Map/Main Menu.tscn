@@ -107,4 +107,7 @@ wrap_mode = 1
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/EasyBtn" to="." method="_on_easy_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/NormalBtn" to="." method="_on_normal_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/HardBtn" to="." method="_on_hard_btn_pressed"]
 [connection signal="pressed" from="ImportMapBtn" to="." method="_on_ImportMapBtn_pressed"]

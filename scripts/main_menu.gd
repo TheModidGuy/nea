@@ -25,3 +25,21 @@ func _on_ImportMapBtn_pressed():
 
 	SaveBuffer.pending_map_string = text
 	get_tree().change_scene_to_file("res://Scene/Map/Game.tscn")
+
+
+
+func _on_easy_btn_pressed() -> void:
+	print("Easy selected")
+	DifficultyBuffer.selected_difficulty = DifficultyBuffer.Difficulty.EASY
+
+
+
+func _on_normal_btn_pressed() -> void:
+	print("Normal selected")
+	DifficultyBuffer.selected_difficulty = DifficultyBuffer.Difficulty.NORMAL
+
+
+
+func _on_hard_btn_pressed() -> void:
+	print("Hard selected")
+	DifficultyBuffer.selected_difficulty = DifficultyBuffer.Difficulty.HARD
