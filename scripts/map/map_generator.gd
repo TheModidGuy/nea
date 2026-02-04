@@ -76,15 +76,33 @@ const DIFFICULTY_PRESETS := {
 
 func _ready():
 	randomize()
-	
 	apply_difficulty()
 	
 	terrain_noise.seed = randi()
-	terrain_noise.frequency = 0.1
 
 	await get_tree().process_frame
 
-	# Overlay setup
+	setup_overlay()
+	setup_astar()
+	setup_enemy_spawner()
+
+	# Load or generate map
+	if SaveBuffer.pending_map_string != "":
+		load_from_save_string(SaveBuffer.pending_map_string)
+		SaveBuffer.pending_map_string = ""
+		place_player_after_load()
+	else:
+		generate_map()
+		spawn_buildings()
+		place_player(4,4)
+		spawn_initial_enemies()
+		spawn_boss_building()
+
+	connect_neighbors()
+	finish_setup()
+
+
+func setup_overlay():
 	var overlays = get_tree().get_nodes_in_group("OverlayUI")
 	if overlays.size() > 0:
 		overlay = overlays[0]
@@ -93,40 +111,34 @@ func _ready():
 	else:
 		push_warning("Overlay not found")
 
-	# A* setup
+func setup_astar():
 	if astar_scene == null:
 		push_error("AStarScene not assigned")
 		return
 	astar = astar_scene.instantiate()
 	add_child(astar)
 
-	# Enemy spawner setup
+func setup_enemy_spawner():
 	if enemy_spawner_scene == null:
-		push_error("Can't find enemy spawner scene")
+		push_error("Cant find enemy spawner scene")
 		return
 	enemy_spawner = enemy_spawner_scene.instantiate()
 	add_child(enemy_spawner)
 	enemy_spawner.setup(self)
-	
+
 	var diff = DifficultyBuffer.selected_difficulty
 	var preset = DIFFICULTY_PRESETS[diff]
 	enemy_spawner.set_enemy_weights(preset.enemy_weights)
 
-	# Load or generate map
-	if SaveBuffer.pending_map_string != "":
-		load_from_save_string(SaveBuffer.pending_map_string)
-		SaveBuffer.pending_map_string = ""
-	else:
-		generate_map()
-		spawn_buildings()
-		place_player(4,4)
-		spawn_initial_enemies()
-		spawn_boss_building()
-	
-	
-	connect_neighbors()
-	
-	player_instance.connect("moved", Callable(self, "enemy_turn"))
+func place_player_after_load():
+	if player_instance != null:
+		return
+	place_player(4, 4)
+
+func finish_setup():
+	if player_instance != null:
+		player_instance.moved.connect(Callable(self, "enemy_turn"))
+
 
 
 func _unhandled_input(event):
@@ -535,6 +547,11 @@ func serialize_map() -> Dictionary:
 	return data
 
 func load_map_from_data(data: Dictionary):
+	#validation for map
+	if not data.has("w") or not data.has("h") or not data.has("tiles"):
+		push_error("Save data corrupted or incomplete")
+		return
+		
 	map_width = data.w
 	map_height = data.h
 
@@ -574,11 +591,21 @@ func load_map_from_data(data: Dictionary):
 
 	# Enemies
 	for e in data.enemies:
+		if not e.has("x") or not e.has("y") or not e.has("t"):
+			continue
+	
+	for e in data.enemies:
 		var tile = get_tile(e.x, e.y)
 		match e.t:
-			"wolf": enemy_spawner.spawn_specific_enemy_on_tile(enemy_spawner.wolf_scene, tile)
-			"bandit": enemy_spawner.spawn_specific_enemy_on_tile(enemy_spawner.bandit_scene, tile)
-			"dragon": enemy_spawner.spawn_specific_enemy_on_tile(enemy_spawner.dragon_scene, tile)
+			"wolf":
+				enemy_spawner.spawn_specific_enemy_on_tile(enemy_spawner.wolf_scene, tile)
+			"bandit":
+				enemy_spawner.spawn_specific_enemy_on_tile(enemy_spawner.bandit_scene, tile)
+			"dragon":
+				enemy_spawner.spawn_specific_enemy_on_tile(enemy_spawner.dragon_scene, tile)
+			_:
+				push_warning("Unknown enemy type: %s" % e.t)
+
 
 
 func generate_save_string() -> String:
@@ -600,6 +627,10 @@ func parse_save_string(save_string: String) -> Dictionary:
 	return result
 
 func load_from_save_string(save_string: String):
+	if enemy_spawner == null:
+		push_error("Enemy spawner not initialized before load")
+		return
+
 	var data := parse_save_string(save_string)
 	if data.is_empty():
 		push_error("Failed to load save string")
