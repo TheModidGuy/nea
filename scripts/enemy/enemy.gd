@@ -79,13 +79,24 @@ func try_start_battle(player):
 func die(player):
 	var gold_reward = randi_range(gold_min, gold_max)
 	player.gold += gold_reward
+	player.gold_earned += gold_reward
 	print("Player got ", gold_reward, " gold")
+	
+	print("Checking game win conditions:", enemy_type, currentTile, currentTile.building_on_tile if currentTile else "No tile")
+	
+	if enemy_type == "wizard" and currentTile.has_building and currentTile.building_on_tile == "boss":
+		print("Game won condition met")
+		if Global.overlay:
+			Global.overlay.show_game_won(player)
+		else:
+			print("Overlay not found!")
 	
 	var spawner = get_parent().enemy_spawner
 	if spawner:
 		spawner.remove_enemy(self)
-		
-		queue_free()
+	
+	player.total_kills += 1
+	queue_free()
 
 # battle controls
 func attack_player(player):

@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 BattleState="*res://scripts/BattleState.gd"
 SaveBuffer="*res://scripts/SaveBuffer.gd"
 DifficultyBuffer="*res://scripts/DifficultyBuffer.gd"
+Global="*res://scripts/global.gd"
 
 [display]
 

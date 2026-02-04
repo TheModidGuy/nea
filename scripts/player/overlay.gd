@@ -52,7 +52,14 @@ var selected_shop_index := -1
 @onready var save_panel: Panel = $TextureRect/SavePanel
 @onready var save_output: TextEdit = $TextureRect/SavePanel/VBoxContainer/SaveOutput
 
+# game win
+@onready var game_won_panel = $TextureRect/GameWon
+@onready var label_TotalKills = $TextureRect/GameWon/TotalKills
+@onready var label_NetGold = $TextureRect/GameWon/NetGold
+@onready var label_TotalTiles = $TextureRect/GameWon/TotalTiles
+
 func _ready():
+	Global.overlay = self
 	add_to_group("OverlayUI")
 
 func _process(_delta):
@@ -232,6 +239,7 @@ func _on_PurchaseButton_pressed():
 
 	# Buy 1 unit
 	player.gold -= entry.price
+	player.gold_spent += entry.price
 	player.inventory.add_item(entry.item, 1)
 	entry.amount -= 1
 
@@ -379,3 +387,12 @@ func _on_run_button_pressed():
 			return
 	
 		update_battle_ui()
+
+
+# win panel
+func show_game_won(player_instance):
+	game_won_panel.visible = true
+	label_TotalKills.text = "Total Kills: %d" % player_instance.total_kills
+	label_NetGold.text = "Net Gold: %d" % player_instance.net_gold
+	label_TotalTiles.text = "Tiles Moved: %d" % player_instance.tiles_moved
+	

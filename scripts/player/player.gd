@@ -6,6 +6,8 @@ signal battle_ended(player_won)
 
 @onready var inventory: Inventory = $Inventory
 
+const ENEMY_SAFE_RADIUS := 5
+
 var currentTile: Node = null
 var energy: int = 100
 var max_energy: int = 100
@@ -13,14 +15,23 @@ var health: int = 100
 var max_health: int = 100
 
 var speed: int = 6
-var attack: int = 7
+var attack: int = 500
 var defence: int = 6
 var magic_skill: int = 100
 var crit: int = 2
 
 var gold: int = 100
+var gold_earned := 0
+var gold_spent := 0
 
 var crit_chance: int = 5
+
+var net_gold:
+	get:
+		return gold_earned - gold_spent
+
+var total_kills: int = 0
+var tiles_moved: int = 0
 
 enum BattlePhase {
 	PLAYER_TURN,
@@ -37,6 +48,8 @@ var in_battle: bool = false
 
 
 signal moved(new_tile)
+
+
 
 func moveToTile(tile) -> bool:
 	if currentTile == tile:
@@ -61,7 +74,7 @@ func moveToTile(tile) -> bool:
 	position = tile.position
 	currentTile = tile
 	
-		
+	tiles_moved += 1
 	print("Moved to: ", tile.terrainType, "Energy left: ", energy)
 	
 	#building stuff
@@ -144,6 +157,9 @@ func end_battle(player_won: bool):
 	in_battle = false
 	battle_locked = false
 	battle_ended.emit(player_won)
+	
+	BattleState.run_escape_tile = currentTile
+	BattleState.run_escape_radius = ENEMY_SAFE_RADIUS
 	
 
 

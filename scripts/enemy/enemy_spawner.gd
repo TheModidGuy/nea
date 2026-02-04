@@ -26,6 +26,10 @@ func spawn_specific_enemy_on_tile(enemy_scene: PackedScene, tile):
 	var enemy = enemy_scene.instantiate()
 	enemy.position = tile.position
 	enemy.currentTile = tile
+	
+	if enemy_scene == wizard_scene:
+		enemy.enemy_type = "wizard"
+	
 	map.add_child(enemy)
 	enemies.append(enemy)
 

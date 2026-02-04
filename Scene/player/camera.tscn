@@ -368,6 +368,67 @@ size_flags_vertical = 3
 editable = false
 wrap_mode = 1
 
+[node name="GameWon" type="Panel" parent="CanvasLayer/camoverlay/TextureRect"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.013
+anchor_top = 0.028
+anchor_right = 0.8
+anchor_bottom = 0.65800005
+offset_left = 0.3600006
+offset_top = -0.15999985
+offset_bottom = 0.23995972
+
+[node name="Label" type="Label" parent="CanvasLayer/camoverlay/TextureRect/GameWon"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.23500001
+anchor_top = 0.081
+anchor_right = 0.776
+anchor_bottom = 0.24400002
+offset_left = 0.35498047
+offset_top = 0.22600174
+offset_right = -0.43200684
+offset_bottom = 0.2239914
+theme_override_font_sizes/font_size = 60
+text = "You won :)"
+
+[node name="TotalKills" type="Label" parent="CanvasLayer/camoverlay/TextureRect/GameWon"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.194
+anchor_top = 0.324
+anchor_right = 0.37500003
+anchor_bottom = 0.48900002
+offset_left = -0.3580017
+offset_top = -0.09599304
+offset_right = 0.37496948
+offset_bottom = -0.006011963
+
+[node name="NetGold" type="Label" parent="CanvasLayer/camoverlay/TextureRect/GameWon"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.44300002
+anchor_top = 0.335
+anchor_right = 0.625
+anchor_bottom = 0.5
+offset_left = -0.10101318
+offset_top = -0.08999634
+offset_right = -0.375
+
+[node name="TotalTiles" type="Label" parent="CanvasLayer/camoverlay/TextureRect/GameWon"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.194
+anchor_top = 0.57500005
+anchor_right = 0.37500003
+anchor_bottom = 0.74
+offset_left = -0.3580017
+offset_top = -0.05001831
+offset_right = 0.37496948
+offset_bottom = 0.040008545
+
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/camoverlay"]
 clip_contents = false
 custom_minimum_size = Vector2(200, 200)
