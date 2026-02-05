@@ -15,7 +15,7 @@ var health: int = 100
 var max_health: int = 100
 
 var speed: int = 6
-var attack: int = 10
+var attack: int = 7
 var defence: int = 6
 var magic_skill: int = 100
 var crit: int = 2
